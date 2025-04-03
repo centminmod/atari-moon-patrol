@@ -562,7 +562,7 @@
         const INTERNAL_WIDTH = 800;
         const INTERNAL_HEIGHT = 450;
         const GROUND_LEVEL_Y = INTERNAL_HEIGHT * 0.85;
-        const BUGGY_WIDTH = 50;
+        const BUGGY_WIDTH = 35; // Adjusted: Was 50
         const BUGGY_HEIGHT = 25;
         const BUGGY_START_X = INTERNAL_WIDTH * 0.15;
         const GRAVITY = 0.5;
@@ -577,7 +577,7 @@
         const MIN_OBSTACLE_SPAWN_RATE = 50;
         const CRATER_WIDTH = 40;
         const CRATER_HEIGHT = 15;
-        const ROCK_WIDTH = 25;
+        const ROCK_WIDTH = 15; // Adjusted: Was 25
         const ROCK_HEIGHT = 30;
         const MINE_WIDTH = 20;
         const MINE_HEIGHT = 10;
@@ -796,7 +796,6 @@
         }
 
         // --- Explosion Particle System ---
-        // (createExplosion, updateParticles, drawParticles remain the same as previous version)
         function createExplosion(x, y, color = '#FFA500', count = 15, size = 3, speed = 3, duration = 30) {
              for (let i = 0; i < count; i++) {
                  const angle = Math.random() * Math.PI * 2;
@@ -840,7 +839,10 @@
                 obstacle.type = 'crater'; obstacle.w = CRATER_WIDTH + random(-5, 5); obstacle.h = CRATER_HEIGHT + random(-3, 3);
                 obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#5a3d2b';
             } else if (typeRoll < 0.75) { // Rock
-                obstacle.type = 'rock'; obstacle.w = ROCK_WIDTH + random(-5, 10); obstacle.h = ROCK_HEIGHT + random(-10, 15);
+                obstacle.type = 'rock';
+                // Use new ROCK_WIDTH constant and adjusted random factor
+                obstacle.w = ROCK_WIDTH + random(-3, 5); // Adjusted: Was random(-5, 10)
+                obstacle.h = ROCK_HEIGHT + random(-10, 15);
                 obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#999'; // Lighter grey
                  // Add jagged points for drawing
                  obstacle.points = [];
@@ -996,9 +998,8 @@
              const speedFactor = isNear ? NEAR_MOUNTAIN_SPEED_FACTOR : FAR_MOUNTAIN_SPEED_FACTOR;
              const minHeight = isNear ? INTERNAL_HEIGHT * 0.2 : INTERNAL_HEIGHT * 0.1;
              const maxHeight = isNear ? INTERNAL_HEIGHT * 0.4 : INTERNAL_HEIGHT * 0.25;
-             // FIX: Use stageTint variable name
-             const stageTint = Math.min(currentStageIndex * 15, 60); // Get darker/bluer in later stages
-             const baseNearColor = [Math.max(0, 0x4a - stageTint), Math.max(0, 0x4a - stageTint), Math.max(0, 0x6a)]; // Ensure non-negative
+             const stageTint = Math.min(currentStageIndex * 15, 60); // Use corrected name
+             const baseNearColor = [Math.max(0, 0x4a - stageTint), Math.max(0, 0x4a - stageTint), Math.max(0, 0x6a)];
              const baseFarColor = [Math.max(0, 0x3a - stageTint), Math.max(0, 0x3a - stageTint), Math.max(0, 0x5a)];
              const color = isNear ? `rgb(${baseNearColor[0]}, ${baseNearColor[1]}, ${baseNearColor[2]})` : `rgb(${baseFarColor[0]}, ${baseFarColor[1]}, ${baseFarColor[2]})`;
              const height = random(minHeight, maxHeight); const width = random(100, 300);
@@ -1011,9 +1012,7 @@
              if (element.isNear !== undefined) {
                  const speedFactor = element.isNear ? NEAR_MOUNTAIN_SPEED_FACTOR : FAR_MOUNTAIN_SPEED_FACTOR;
                  element.speed = obstacleScrollSpeed * speedFactor;
-                 // Update color based on stage if needed
-                 // FIX: Use stageTint variable name
-                 const stageTint = Math.min(currentStageIndex * 15, 60);
+                 const stageTint = Math.min(currentStageIndex * 15, 60); // Use corrected name
                  const baseNearColor = [Math.max(0, 0x4a - stageTint), Math.max(0, 0x4a - stageTint), Math.max(0, 0x6a)];
                  const baseFarColor = [Math.max(0, 0x3a - stageTint), Math.max(0, 0x3a - stageTint), Math.max(0, 0x5a)];
                  element.color = element.isNear ? `rgb(${baseNearColor[0]}, ${baseNearColor[1]}, ${baseNearColor[2]})` : `rgb(${baseFarColor[0]}, ${baseFarColor[1]}, ${baseFarColor[2]})`;
