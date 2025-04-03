@@ -2,7 +2,7 @@
 
 // --- Configuration ---
 // Increment this version number when you update any assets in urlsToCache
-const APP_VERSION = 'v1';
+const APP_VERSION = 'v3';
 const CACHE_NAME = `moon-patrol-cache-${APP_VERSION}`;
 
 // List of assets to cache on installation

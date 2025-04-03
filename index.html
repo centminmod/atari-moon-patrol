@@ -639,7 +639,8 @@
         const FAR_MOUNTAIN_SPEED_FACTOR = 0.2;
 
         // --- Tone.js Sound Synths ---
-        let jumpSynth, shootSynth, explosionSynth, hitSynth, ufoHitSynth, backgroundLoop;
+        // FIX: Changed shootSynth to shootPolySynth
+        let jumpSynth, shootPolySynth, explosionSynth, hitSynth, ufoHitSynth, backgroundLoop;
         let soundsReady = false; // Flag to check if audio context is started
 
         // --- Utility Functions ---
@@ -665,11 +666,14 @@
                     envelope: { attack: 0.01, decay: 0.1, sustain: 0.05, release: 0.2 }
                 }).toDestination();
 
-                shootSynth = new Tone.NoiseSynth({
-                    noise: { type: 'white', playbackRate: 2 },
-                    envelope: { attack: 0.001, decay: 0.05, sustain: 0 }
-                }).toDestination();
-                shootSynth.volume.value = -15; // Quieter shoot sound
+                // FIX: Initialize as PolySynth
+                shootPolySynth = new Tone.PolySynth(Tone.NoiseSynth, {
+                     volume: -15, // Quieter shoot sound
+                     options: { // Options for the NoiseSynth instances
+                         noise: { type: 'white', playbackRate: 2 },
+                         envelope: { attack: 0.001, decay: 0.05, sustain: 0 }
+                     }
+                 }).toDestination();
 
                 explosionSynth = new Tone.NoiseSynth({
                     noise: { type: 'brown', playbackRate: 0.8 },
@@ -706,7 +710,8 @@
                         jumpSynth?.triggerAttackRelease("G5", "16n");
                         break;
                     case 'shoot':
-                        shootSynth?.triggerAttackRelease("16n");
+                        // FIX: Use PolySynth, provide note
+                        shootPolySynth?.triggerAttackRelease("C4", "16n");
                         break;
                     case 'explosion_obstacle':
                         explosionSynth?.triggerAttackRelease("8n");
@@ -719,7 +724,8 @@
                         hitSynth?.triggerAttackRelease("F3", "8n");
                         break;
                     case 'hit_bomb': // Sound for shooting enemy bomb
-                         shootSynth?.triggerAttackRelease("32n", Tone.now(), 0.5); // Higher pitch/shorter shoot
+                         // FIX: Use PolySynth, provide note, velocity, and remove Tone.now()
+                         shootPolySynth?.triggerAttackRelease("D5", "32n", undefined, 0.5); // Higher pitch/shorter shoot
                          break;
                 }
             } catch (err) {
@@ -844,6 +850,7 @@
                 obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#5a3d2b';
             } else if (typeRoll < 0.75) { // Rock
                 obstacle.type = 'rock';
+                // Use user requested ROCK_WIDTH constant and adjusted random factor
                 obstacle.w = ROCK_WIDTH + random(-1, 3); // Adjust random factor for smaller base width
                 obstacle.h = ROCK_HEIGHT + random(-5, 10); // Adjust height randomness based on new base height
                 obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#999';
@@ -1362,7 +1369,6 @@
             // Spawn obstacles with minimum gap logic
             obstacleSpawnTimer--;
             if (obstacleSpawnTimer <= 0) {
-                // Check distance from last obstacle's END position
                 // Corrected Logic: Check if the *right edge of the screen* is clear of the last obstacle + gap
                 if (INTERNAL_WIDTH >= lastObstacleEndX + MIN_OBSTACLE_GAP) {
                     const newObstacle = createObstacle();
