@@ -2,16 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="Moon Patrol - Atari Classic Clone Game">
     <meta name="theme-color" content="#000000"/>
     <link rel="preload" href="/css/fonts.css" as="style">
     <link rel="preload" href="/fonts/press-start-2p-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -23,25 +18,25 @@
     <title>Moon Patrol</title>
     <style>
         /* --- General Body and Font --- */
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; /* Prevent scrollbars */ }
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; /* Prevent scrollbars */ background-color: #000; /* Black background for body */ }
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; /* Align content to the top */
-            padding: 10px;
+            padding: 5px; /* Reduced padding */
             box-sizing: border-box;
             min-height: 100vh;
             background-color: #00001a; /* Dark blue space background */
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'Press Start 2P', cursive; /* Ensure this matches font loaded in fonts.css */
             color: #ffff00; /* Yellow text */
         }
 
         /* --- Game Title --- */
         h1#mainTitle {
             color: #ff0000; /* Red title */
-            font-size: clamp(20px, 5vw, 32px);
-            margin-bottom: 15px;
+            font-size: clamp(18px, 5vw, 30px); /* Adjusted size */
+            margin-bottom: 10px; /* Reduced margin */
             text-shadow: 2px 2px #ffff00; /* Yellow shadow */
             text-align: center;
         }
@@ -52,7 +47,7 @@
             width: 100%;
             max-width: 800px; /* Max width for the game area */
             aspect-ratio: 800 / 450; /* Adjusted aspect ratio for landscape view */
-            margin: 0 auto;
+            margin: 0 auto 5px auto; /* Added bottom margin */
             border: 2px solid #00ff00; /* Green border */
             box-shadow: 0 0 15px #00ff00; /* Green glow */
             background-color: #000000; /* Black canvas background */
@@ -78,9 +73,9 @@
             align-items: center;
             width: 100%;
             max-width: 800px; /* Match canvas width */
-            padding: 8px 0;
-            font-size: clamp(10px, 2.5vw, 12px); /* Slightly larger font */
-            gap: 8px;
+            padding: 5px 0; /* Reduced padding */
+            font-size: clamp(9px, 2.5vw, 11px); /* Adjusted size */
+            gap: 6px; /* Reduced gap */
             border-bottom: 1px solid #005500; /* Dark green border */
             margin-bottom: 5px;
             color: #00ff00; /* Green UI text */
@@ -88,17 +83,17 @@
         #score, #highScore, #lives, #checkpoint {
             flex-grow: 1;
             text-align: center;
-            min-width: 80px;
+            min-width: 70px; /* Adjusted min-width */
         }
         #highScore { color: #aaa; } /* Grey high score */
 
-        /* --- Controls Container --- */
+        /* --- Controls Container (Restart/Pause) --- */
         #controlsContainer {
-            margin-top: 10px;
+            margin-top: 5px; /* Reduced margin */
             display: none; /* Hidden until game starts */
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 8px; /* Reduced gap */
             width: 100%;
             max-width: 800px;
         }
@@ -109,7 +104,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px; /* Reduced max-width */
             padding: 10px;
             box-sizing: border-box;
         }
@@ -118,9 +113,9 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 10px;
+            gap: 8px; /* Reduced gap */
             margin-top: 0;
-            padding: 15px;
+            padding: 10px; /* Reduced padding */
             border: 2px solid #ffff00; /* Yellow border */
             border-radius: 10px;
             background-color: rgba(30, 30, 0, 0.5);
@@ -128,9 +123,9 @@
             box-sizing: border-box;
         }
         #courseSelection h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0; /* Reduced margin */
             color: #ffff00; /* Yellow */
-            font-size: clamp(16px, 4vw, 18px);
+            font-size: clamp(14px, 4vw, 16px); /* Adjusted size */
             text-align: center;
         }
         .course-button { /* Style for course buttons */
@@ -149,20 +144,20 @@
         }
         #startHighScore {
             color: #aaa; /* Grey */
-            font-size: clamp(12px, 3vw, 14px);
-            margin-top: 15px;
+            font-size: clamp(11px, 3vw, 13px); /* Adjusted size */
+            margin-top: 10px; /* Reduced margin */
             text-align: center;
         }
-        #actualStartButton { margin-top: 20px; display: none; } /* Hidden initially */
+        #actualStartButton { margin-top: 15px; display: none; } /* Hidden initially */
 
         /* --- Buttons --- */
         button {
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'Press Start 2P', cursive; /* Ensure this matches font loaded in fonts.css */
             background-color: #333;
             color: #00ff00; /* Green text */
             border: 2px solid #00ff00; /* Green border */
-            padding: 8px 15px;
-            font-size: clamp(12px, 3vw, 16px);
+            padding: 6px 12px; /* Adjusted padding */
+            font-size: clamp(11px, 3vw, 14px); /* Adjusted size */
             cursor: pointer;
             box-shadow: 0 0 8px #00ff00 inset; /* Green inset shadow */
             transition: background-color 0.3s, box-shadow 0.3s, color 0.3s, border-color 0.3s;
@@ -170,6 +165,7 @@
             white-space: nowrap;
             flex-grow: 0;
             flex-shrink: 1;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
         }
         button:hover:not(:disabled), button:focus:not(:disabled) {
             background-color: #444;
@@ -187,7 +183,7 @@
             transform: translate(-50%, -50%);
             background-color: rgba(0, 0, 0, 0.9);
             border: 3px solid #ff0000; /* Red border */
-            padding: 20px;
+            padding: 15px; /* Reduced padding */
             text-align: center;
             color: #ff0000; /* Red title text */
             display: none;
@@ -195,27 +191,27 @@
             box-shadow: 0 0 20px #ff0000; /* Red glow */
             border-radius: 10px;
             width: 90%;
-            max-width: 600px; /* Slightly narrower */
+            max-width: 550px; /* Adjusted width */
             box-sizing: border-box;
-            max-height: 70vh;
+            max-height: 80vh; /* Increased height */
             overflow-y: auto;
-            padding-bottom: 25px;
+            padding-bottom: 20px; /* Reduced padding */
         }
-        #messageBox h2 { margin: 0 0 10px 0; font-size: clamp(20px, 5vw, 28px); }
-        #messageBox p { margin: 5px 0 10px 0; font-size: clamp(12px, 3vw, 16px); color: #ffff00; line-height: 1.4; } /* Yellow message text */
+        #messageBox h2 { margin: 0 0 8px 0; font-size: clamp(18px, 5vw, 24px); } /* Adjusted size */
+        #messageBox p { margin: 5px 0 8px 0; font-size: clamp(11px, 3vw, 14px); color: #ffff00; line-height: 1.4; } /* Adjusted size */
         #statsContainer {
-            margin-top: 15px;
-            padding-top: 10px;
+            margin-top: 10px; /* Reduced margin */
+            padding-top: 8px; /* Reduced padding */
             border-top: 1px solid #550000; /* Dark red border */
-            font-size: clamp(10px, 2.5vw, 11.5px);
+            font-size: clamp(9px, 2.5vw, 11px); /* Adjusted size */
             color: #ccc;
             text-align: left;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5px 15px;
+            gap: 4px 10px; /* Reduced gap */
         }
-        #statsContainer span { display: block; margin-bottom: 4px; white-space: nowrap; }
-        .messageBoxButtons { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        #statsContainer span { display: block; margin-bottom: 3px; white-space: nowrap; } /* Adjusted margin */
+        .messageBoxButtons { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; } /* Reduced margin/gap */
 
         /* --- Pause Overlay --- */
         #pauseOverlay {
@@ -229,7 +225,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: clamp(30px, 10vw, 48px);
+            font-size: clamp(28px, 10vw, 44px); /* Adjusted size */
             text-shadow: 3px 3px #ff0000; /* Red shadow */
             z-index: 15;
             pointer-events: none;
@@ -239,15 +235,15 @@
         footer {
              width: 100%;
              max-width: 800px;
-             margin-top: 20px; /* Space above footer */
-             padding: 10px 0;
+             margin-top: 10px; /* Reduced Space above footer */
+             padding: 8px 0; /* Reduced padding */
              border-top: 1px solid #005500; /* Dark green */
-             font-size: clamp(10px, 2.5vw, 12px);
+             font-size: clamp(9px, 2.5vw, 11px); /* Adjusted size */
              display: flex; /* Use flexbox for layout */
              justify-content: space-around; /* Space out the groups */
              align-items: center; /* Center items vertically */
              flex-wrap: wrap; /* Allow wrapping on smaller screens */
-             gap: 15px; /* Gap between flex items */
+             gap: 10px; /* Reduced Gap between flex items */
              color: #00ff00; /* Green footer text */
              text-align: center; /* Center text within groups */
         }
@@ -256,11 +252,13 @@
             display: flex; /* Use flex for items within the group */
             flex-direction: column; /* Stack items vertically in social */
             align-items: center; /* Center items horizontally */
-            gap: 5px; /* Gap between items in the group */
+            gap: 4px; /* Reduced gap */
         }
         footer .link-group.github-links {
             flex-direction: row; /* GitHub links in a row */
-            gap: 8px; /* Adjust gap for horizontal layout */
+            gap: 6px; /* Reduced gap */
+            flex-wrap: wrap; /* Allow badges to wrap */
+            justify-content: center; /* Center badges if they wrap */
         }
         /* Style for links */
         footer a {
@@ -270,6 +268,7 @@
             display: inline-block; /* Make links behave like blocks for alignment */
             vertical-align: middle;
             line-height: 1;
+            margin: 0 3px; /* Add slight horizontal margin */
         }
         footer a:hover, footer a:focus {
              color: #ffff00;
@@ -279,101 +278,160 @@
         /* Style for images within links (GitHub badges) */
         footer a img {
             vertical-align: middle; /* Align badges nicely */
-            height: 20px; /* Consistent badge height */
+            height: 18px; /* Adjusted badge height */
             width: auto;
         }
         /* Ensure Controls span is block for newline */
         footer .social-links span {
             display: block; /* Make span take full width */
-            margin-bottom: 5px; /* Add space below controls text */
+            margin-bottom: 4px; /* Reduced space below controls text */
+        }
+        footer .social-links div { /* Container for social links */
+             display: flex;
+             gap: 8px; /* Space between social links */
+             flex-wrap: wrap; /* Allow wrapping */
+             justify-content: center;
         }
 
-        /* --- Leaderboard Styles (Copied from Missile Command) --- */
+
+        /* --- Leaderboard Styles --- */
         #leaderboardContainer {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px; /* Reduced margin */
+            padding: 10px; /* Reduced padding */
             border: 2px solid #00ffff; /* Cyan border */
             border-radius: 10px;
             background-color: rgba(0, 30, 30, 0.5);
             width: 100%;
-            max-width: 400px;
+            max-width: 350px; /* Adjusted width */
             box-sizing: border-box;
             color: #00ffff;
             display: none; /* Initially hidden */
             text-align: center;
         }
-        #leaderboardContainer h3 { margin: 0 0 10px 0; font-size: clamp(16px, 4vw, 18px); color: #ffffff; }
-        #leaderboardList { list-style: none; padding: 0; margin: 0; font-size: clamp(12px, 3vw, 14px); text-align: left; max-height: 220px; overflow-y: auto; }
-        #leaderboardList li { display: flex; justify-content: space-between; padding: 3px 5px; border-bottom: 1px dashed rgba(0, 255, 255, 0.3); }
+        #leaderboardContainer h3 { margin: 0 0 8px 0; font-size: clamp(14px, 4vw, 16px); color: #ffffff; } /* Adjusted size */
+        #leaderboardList { list-style: none; padding: 0; margin: 0; font-size: clamp(11px, 3vw, 13px); text-align: left; max-height: 180px; overflow-y: auto; } /* Adjusted size/height */
+        #leaderboardList li { display: flex; justify-content: space-between; padding: 2px 4px; border-bottom: 1px dashed rgba(0, 255, 255, 0.3); } /* Adjusted padding */
         #leaderboardList li:last-child { border-bottom: none; }
-        #leaderboardList .rank { flex-basis: 10%; text-align: right; padding-right: 10px; color: #aaaaaa; }
+        #leaderboardList .rank { flex-basis: 10%; text-align: right; padding-right: 8px; color: #aaaaaa; } /* Adjusted padding */
         #leaderboardList .name { flex-basis: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         #leaderboardList .score { flex-basis: 40%; text-align: right; color: #ffff00; }
         #leaderboardLoading { color: #aaaaaa; }
 
-        /* --- Game Over Score Submission Styles (Copied from Missile Command) --- */
+        /* --- Game Over Score Submission Styles --- */
         #scoreSubmission {
-            margin-top: 15px;
-            padding-top: 10px;
+            margin-top: 10px; /* Reduced margin */
+            padding-top: 8px; /* Reduced padding */
             border-top: 1px solid #550000; /* Dark red */
             display: none; /* Hidden by default */
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px; /* Reduced gap */
         }
-        #scoreSubmission label { font-size: clamp(11px, 2.8vw, 14px); color: #ffff00; } /* Yellow */
+        #scoreSubmission label { font-size: clamp(10px, 2.8vw, 13px); color: #ffff00; } /* Adjusted size */
         #playerNameInput {
             font-family: 'Press Start 2P', cursive;
             background-color: #222;
             color: #00ff00; /* Green */
             border: 1px solid #00ff00; /* Green */
-            padding: 5px 8px;
-            font-size: clamp(12px, 3vw, 16px);
+            padding: 4px 6px; /* Adjusted padding */
+            font-size: clamp(11px, 3vw, 14px); /* Adjusted size */
             text-align: center;
             width: 80%;
-            max-width: 250px; /* Adjust as needed */
+            max-width: 220px; /* Adjusted width */
             text-transform: uppercase;
             border-radius: 3px;
         }
-        #submitScoreButton { margin-top: 5px; }
-        #submissionStatus { margin-top: 5px; font-size: clamp(10px, 2.5vw, 12px); color: #00ff00; min-height: 1em; }
+        #submitScoreButton { margin-top: 4px; } /* Reduced margin */
+        #submissionStatus { margin-top: 4px; font-size: clamp(9px, 2.5vw, 11px); color: #00ff00; min-height: 1em; } /* Adjusted size */
+
+        /* --- Mobile Controls --- */
+        #mobileControls {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            display: none; /* Hidden by default, shown via JS/CSS */
+            justify-content: space-between;
+            padding: 0 15px; /* Padding on sides */
+            box-sizing: border-box;
+            z-index: 10;
+            pointer-events: none; /* Allow clicks through the container */
+        }
+        .mobile-button {
+            background-color: rgba(100, 100, 100, 0.6);
+            border: 2px solid #ffff00;
+            color: #ffff00;
+            width: 70px; /* Size of buttons */
+            height: 70px;
+            border-radius: 50%; /* Circular buttons */
+            font-size: 18px; /* Text size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            pointer-events: auto; /* Enable clicks on buttons */
+            user-select: none; /* Prevent text selection */
+            -webkit-user-select: none;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+        .mobile-button:active {
+             background-color: rgba(150, 150, 150, 0.7);
+        }
+        #mobileJump { margin-left: 10px; } /* Position left */
+        #mobileShoot { margin-right: 10px; } /* Position right */
+
+        /* Show mobile controls only on touch devices (simplistic check) */
+        @media (hover: none) and (pointer: coarse) {
+            #mobileControls {
+                display: flex;
+            }
+            /* Hide keyboard controls hint in footer on mobile */
+             footer .social-links span { display: none; }
+        }
+
 
         /* --- Media Queries (Simplified for Moon Patrol) --- */
         @media (max-width: 768px) {
-            #uiContainer { gap: 6px; padding: 5px 0; font-size: clamp(10px, 2.2vw, 11px); }
-            #controlsContainer { gap: 8px; }
-            #courseSelection { gap: 8px; padding: 10px; }
-            button { padding: 6px 12px; }
-            #messageBox { padding: 15px; max-width: 95%; }
-            footer { margin-top: 15px; gap: 10px; /* Adjust gap */ } /* Footer adjustments */
+            #uiContainer { gap: 5px; padding: 4px 0; font-size: clamp(9px, 2.2vw, 10px); }
+            #controlsContainer { gap: 6px; }
+            #courseSelection { gap: 6px; padding: 8px; }
+            button { padding: 5px 10px; }
+            #messageBox { padding: 12px; max-width: 95%; }
+            footer { margin-top: 10px; gap: 8px; } /* Footer adjustments */
             footer .link-group { flex-basis: 100%; } /* Stack groups on medium screens */
             footer .link-group.github-links { justify-content: center; } /* Center GitHub badges */
         }
 
         @media (max-width: 480px) {
-            body { padding: 5px; }
-            h1#mainTitle { font-size: 18px; margin-bottom: 10px; }
-            #uiContainer { font-size: 9px; gap: 4px; justify-content: space-between;}
-            #score, #highScore, #lives, #checkpoint { min-width: 60px; }
-            #controlsContainer { gap: 5px; }
-            #courseSelection { padding: 8px; gap: 6px; }
-            #courseSelection h3 { font-size: 14px; margin-bottom: 8px; }
-            button { padding: 5px 10px; font-size: 10px; }
-            .course-button { font-size: 11px; }
-            #messageBox { padding: 10px; width: 95%; top: 45%; max-height: 80vh; }
-            #messageBox h2 { font-size: 18px; }
-            #messageBox p { font-size: 11px; }
-            #statsContainer { font-size: 9px; grid-template-columns: 1fr; gap: 3px 10px; }
-            .messageBoxButtons { gap: 8px; }
-            #pauseOverlay { font-size: 24px; }
-            footer { margin-top: 10px; font-size: 9px; padding: 8px 0; display: block; text-align: center; } /* Revert to block for stacking */
-            footer .link-group { margin-bottom: 10px; } /* Add space between stacked groups */
-            footer .link-group.github-links a img { height: 18px; } /* Slightly smaller badges */
+            body { padding: 3px; }
+            h1#mainTitle { font-size: 16px; margin-bottom: 8px; }
+            #uiContainer { font-size: 8px; gap: 3px; justify-content: space-between;}
+            #score, #highScore, #lives, #checkpoint { min-width: 55px; }
+            #controlsContainer { gap: 4px; }
+            #courseSelection { padding: 6px; gap: 5px; }
+            #courseSelection h3 { font-size: 12px; margin-bottom: 6px; }
+            button { padding: 4px 8px; font-size: 9px; }
+            .course-button { font-size: 10px; }
+            #messageBox { padding: 8px; width: 95%; top: 45%; max-height: 75vh; }
+            #messageBox h2 { font-size: 16px; }
+            #messageBox p { font-size: 10px; }
+            #statsContainer { font-size: 8px; grid-template-columns: 1fr; gap: 2px 8px; }
+            .messageBoxButtons { gap: 6px; }
+            #pauseOverlay { font-size: 22px; }
+            footer { margin-top: 8px; font-size: 8px; padding: 6px 0; display: block; text-align: center; } /* Revert to block for stacking */
+            footer .link-group { margin-bottom: 8px; } /* Add space between stacked groups */
+            footer .link-group.github-links a img { height: 16px; } /* Slightly smaller badges */
              /* Leaderboard specific adjustments */
-             #leaderboardContainer { max-width: 95%; }
+             #leaderboardContainer { max-width: 95%; padding: 8px;}
+             #leaderboardContainer h3 { font-size: 13px; }
+             #leaderboardList { font-size: 10px; max-height: 150px;}
              #leaderboardList .rank { flex-basis: 15%; }
              #leaderboardList .name { flex-basis: 45%; }
              #leaderboardList .score { flex-basis: 40%; }
+             /* Mobile button adjustments */
+             .mobile-button { width: 60px; height: 60px; font-size: 16px; }
+             #mobileControls { bottom: 5px; padding: 0 10px;}
         }
     </style>
 </head>
@@ -386,7 +444,8 @@
             <button class="course-button" data-course="beginner">Beginner Course</button>
             <button class="course-button" data-course="champion">Champion Course</button>
         </div>
-        <div id="startHighScore">High Score: 0</div> <div id="leaderboardContainer">
+        <div id="startHighScore">High Score: 0</div>
+        <div id="leaderboardContainer">
             <h3>Top Scores</h3>
             <ol id="leaderboardList">
                 <li id="leaderboardLoading">Loading...</li>
@@ -410,7 +469,12 @@
     <div id="controlsContainer">
         <button id="restartButton" style="display: none;">Restart Game</button>
         <button id="pauseButton" style="display: none;">Pause</button>
-        </div>
+    </div>
+
+    <div id="mobileControls">
+        <button id="mobileJump" class="mobile-button">JUMP</button>
+        <button id="mobileShoot" class="mobile-button">SHOOT</button>
+    </div>
 
     <div id="messageBox">
         <h2 id="messageTitle"></h2>
@@ -431,7 +495,8 @@
     <footer>
         <div class="link-group social-links">
             <span>Controls: [SPACE] = Jump | [X] = Shoot</span>
-            <div> <a href="https://x.com/George_SLiu" target="_blank" rel="noopener noreferrer">Twitter</a>
+            <div>
+                <a href="https://x.com/George_SLiu" target="_blank" rel="noopener noreferrer">Twitter</a>
                 <a href="https://www.threads.net/@george_sl_liu" target="_blank" rel="noopener noreferrer">Threads</a>
                 <a href="https://bsky.app/profile/georgesl.bsky.social" target="_blank" rel="noopener noreferrer">BlueSky</a>
             </div>
@@ -441,16 +506,18 @@
                 <img src="https://img.shields.io/github/sponsors/centminmod" alt="GitHub Sponsors" loading="lazy">
             </a>
             <a href="https://github.com/centminmod/atari-moon-patrol/stargazers" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.shields.io/github/stars/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub stars" loading="lazy">
+                <img src="https://img.shields.io/github/stars/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Moon Patrol GitHub stars" loading="lazy">
             </a>
             <a href="https://github.com/centminmod/atari-moon-patrol/network" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.shields.io/github/forks/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub forks" loading="lazy">
+                <img src="https://img.shields.io/github/forks/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Moon Patrol GitHub forks" loading="lazy">
             </a>
             <a href="https://github.com/centminmod/atari-moon-patrol/issues" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.shields.io/github/issues/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub issues" loading="lazy">
+                <img src="https://img.shields.io/github/issues/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Moon Patrol GitHub issues" loading="lazy">
             </a>
         </div>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
 
     <script>
         // --- Canvas, Context, UI Elements ---
@@ -460,9 +527,8 @@
         const highScoreDisplay = document.getElementById('highScore');
         const livesDisplay = document.getElementById('lives');
         const checkpointDisplay = document.getElementById('checkpoint');
-        // const stageTimerDisplay = document.getElementById('stageTimer'); // Add if implementing timer
 
-        const restartButton = document.getElementById('restartButton'); // In-game controls restart
+        const restartButton = document.getElementById('restartButton');
         const pauseButton = document.getElementById('pauseButton');
         const messageBox = document.getElementById('messageBox');
         const messageTitle = document.getElementById('messageTitle');
@@ -476,7 +542,12 @@
         const startHighScoreDisplay = document.getElementById('startHighScore');
         const actualStartButton = document.getElementById('actualStartButton');
         const canvasContainer = document.getElementById('canvasContainer');
-        const msgBoxRestartButton = document.getElementById('msgBoxRestartButton'); // Message box restart
+        const msgBoxRestartButton = document.getElementById('msgBoxRestartButton');
+
+        // Mobile Controls Elements
+        const mobileControlsDiv = document.getElementById('mobileControls');
+        const mobileJumpButton = document.getElementById('mobileJump');
+        const mobileShootButton = document.getElementById('mobileShoot');
 
         // --- Leaderboard Elements ---
         const leaderboardContainer = document.getElementById('leaderboardContainer');
@@ -489,48 +560,51 @@
 
         // --- Game Constants ---
         const INTERNAL_WIDTH = 800;
-        const INTERNAL_HEIGHT = 450; // Match canvas aspect ratio
-        const GROUND_LEVEL_Y = INTERNAL_HEIGHT * 0.85; // Where the ground starts
+        const INTERNAL_HEIGHT = 450;
+        const GROUND_LEVEL_Y = INTERNAL_HEIGHT * 0.85;
         const BUGGY_WIDTH = 50;
         const BUGGY_HEIGHT = 25;
-        const BUGGY_START_X = INTERNAL_WIDTH * 0.15; // Buggy's fixed X position on screen
+        const BUGGY_START_X = INTERNAL_WIDTH * 0.15;
         const GRAVITY = 0.5;
-        const JUMP_VELOCITY = -10; // Initial upward velocity
-        const MAX_JUMP_HEIGHT = 100; // How high the buggy can jump relative to ground
+        const JUMP_VELOCITY = -10;
         const FORWARD_BULLET_SPEED = 8;
-        const UPWARD_BULLET_SPEED = -7; // Negative for upward Y direction
+        const UPWARD_BULLET_SPEED = -7;
         const BULLET_WIDTH = 10;
         const BULLET_HEIGHT = 4;
         const OBSTACLE_SCROLL_SPEED_START = 3;
         const MAX_OBSTACLE_SCROLL_SPEED = 7;
-        const OBSTACLE_SPAWN_RATE_START = 120; // Frames between potential spawns
+        const OBSTACLE_SPAWN_RATE_START = 120;
         const MIN_OBSTACLE_SPAWN_RATE = 50;
         const CRATER_WIDTH = 40;
         const CRATER_HEIGHT = 15;
         const ROCK_WIDTH = 25;
         const ROCK_HEIGHT = 30;
         const MINE_WIDTH = 20;
-        const MINE_HEIGHT = 10; // Mines are low to the ground
+        const MINE_HEIGHT = 10;
         const UFO_WIDTH = 40;
         const UFO_HEIGHT = 20;
-        const UFO_SPEED_X = -2; // UFOs move left
-        const UFO_SPEED_Y_WAVE = 0.5; // Simple up/down movement
+        const UFO_SPEED_X_BASE = -2; // Base speed
+        const UFO_SPEED_Y_WAVE = 0.5;
         const UFO_SPAWN_RATE_START = 200;
         const MIN_UFO_SPAWN_RATE = 80;
-        const CHECKPOINT_DISTANCE = 15000; // Distance scrolled to reach next checkpoint
+        const UFO_SHOOT_CHANCE = 0.01; // Chance per frame per UFO to shoot/bomb
+        const ENEMY_BOMB_SPEED = 2.5;
+        const CHECKPOINT_DISTANCE = 15000;
         const STAGE_CHECKPOINTS = ['E', 'J', 'O', 'T', 'Z'];
         const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const POINTS_ROCK = 50;
-        const POINTS_CRATER_JUMP = 30; // Points for jumping a crater
+        const POINTS_CRATER_JUMP = 30;
         const POINTS_MINE = 100;
         const POINTS_UFO = 150;
+        const POINTS_ENEMY_BOMB = 25; // Points for shooting down a bomb
         const STARTING_LIVES = 3;
+        const BUGGY_INVULNERABLE_DURATION = 90; // Frames (1.5s at 60fps)
 
         // --- Game State Variables ---
         let score = 0;
         let highScore = 0;
         let lives = STARTING_LIVES;
-        let currentCheckpointIndex = 0; // Index in ALPHABET
+        let currentCheckpointIndex = 0;
         let distanceScrolled = 0;
         let obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START;
         let obstacleSpawnRate = OBSTACLE_SPAWN_RATE_START;
@@ -542,15 +616,18 @@
         let isPaused = false;
         let gameHasStarted = false;
         let courseSelected = false;
-        let selectedCourse = 'beginner'; // 'beginner' or 'champion'
+        let selectedCourse = 'beginner';
+        let currentStageIndex = 0; // To track stages for visual changes
+        let isTouchDevice = false; // Flag for mobile controls
 
         // Game Objects Arrays
         let buggy;
         let forwardBullets = [];
         let upwardBullets = [];
-        let obstacles = []; // Will contain craters, rocks, mines
+        let obstacles = [];
         let ufos = [];
-        // let enemyBullets = []; // Add later if UFOs shoot
+        let enemyBombs = []; // Renamed from enemyBullets for clarity
+        let particles = []; // Explosion particles
 
         // Background elements
         let backgroundStars = [];
@@ -559,484 +636,432 @@
         const NEAR_MOUNTAIN_SPEED_FACTOR = 0.5;
         const FAR_MOUNTAIN_SPEED_FACTOR = 0.2;
 
+        // --- Tone.js Sound Synths ---
+        let jumpSynth, shootSynth, explosionSynth, hitSynth, ufoHitSynth, backgroundLoop;
+        let soundsReady = false; // Flag to check if audio context is started
+
         // --- Utility Functions ---
         function distance(x1, y1, x2, y2) { const dx = x1 - x2; const dy = y1 - y2; return Math.sqrt(dx * dx + dy * dy); }
         function random(min, max) { return Math.random() * (max - min) + min; }
         function checkCollision(rect1, rect2) {
-            // Check for null or undefined inputs
-            if (!rect1 || !rect2) {
-                // console.warn("Collision check with invalid rect:", rect1, rect2);
-                return false;
-            }
-            // Ensure all properties exist
+            if (!rect1 || !rect2) return false;
             if (typeof rect1.x !== 'number' || typeof rect1.y !== 'number' || typeof rect1.w !== 'number' || typeof rect1.h !== 'number' ||
                 typeof rect2.x !== 'number' || typeof rect2.y !== 'number' || typeof rect2.w !== 'number' || typeof rect2.h !== 'number') {
-                // console.warn("Collision check with rect missing properties:", rect1, rect2);
                 return false;
             }
-
             return rect1.x < rect2.x + rect2.w &&
                    rect1.x + rect1.w > rect2.x &&
                    rect1.y < rect2.y + rect2.h &&
                    rect1.y + rect1.h > rect2.y;
         }
 
+        // --- Sound Initialization and Control ---
+        function initSounds() {
+            try {
+                jumpSynth = new Tone.Synth({
+                    oscillator: { type: 'sine' },
+                    envelope: { attack: 0.01, decay: 0.1, sustain: 0.05, release: 0.2 }
+                }).toDestination();
+
+                shootSynth = new Tone.NoiseSynth({
+                    noise: { type: 'white', playbackRate: 2 },
+                    envelope: { attack: 0.001, decay: 0.05, sustain: 0 }
+                }).toDestination();
+                shootSynth.volume.value = -15; // Quieter shoot sound
+
+                explosionSynth = new Tone.NoiseSynth({
+                    noise: { type: 'brown', playbackRate: 0.8 },
+                    envelope: { attack: 0.01, decay: 0.4, sustain: 0 }
+                }).toDestination();
+                explosionSynth.volume.value = -5;
+
+                hitSynth = new Tone.Synth({
+                    oscillator: { type: 'sawtooth' },
+                    envelope: { attack: 0.01, decay: 0.3, sustain: 0, release: 0.1 },
+                    volume: -8
+                }).toDestination();
+
+                ufoHitSynth = new Tone.Synth({
+                     oscillator: { type: 'triangle' },
+                     envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 },
+                     volume: -12
+                 }).toDestination();
+
+                console.log("Tone.js synths initialized.");
+                soundsReady = true;
+            } catch (err) {
+                console.error("Error initializing Tone.js:", err);
+                soundsReady = false; // Disable sounds if error
+            }
+        }
+
+        function playSound(type) {
+            if (!soundsReady || Tone.context.state !== 'running') return; // Don't play if not ready or context suspended
+
+            try {
+                switch(type) {
+                    case 'jump':
+                        jumpSynth?.triggerAttackRelease("G5", "16n");
+                        break;
+                    case 'shoot':
+                        shootSynth?.triggerAttackRelease("16n");
+                        break;
+                    case 'explosion_obstacle':
+                        explosionSynth?.triggerAttackRelease("8n");
+                        break;
+                    case 'explosion_ufo':
+                         ufoHitSynth?.triggerAttackRelease("A4", "16n");
+                         explosionSynth?.triggerAttackRelease("8n", Tone.now() + 0.05); // Slightly delayed boom
+                         break;
+                    case 'hit_buggy':
+                        hitSynth?.triggerAttackRelease("F3", "8n");
+                        break;
+                    case 'hit_bomb': // Sound for shooting enemy bomb
+                         shootSynth?.triggerAttackRelease("32n", Tone.now(), 0.5); // Higher pitch/shorter shoot
+                         break;
+                }
+            } catch (err) {
+                console.error("Error playing sound:", type, err);
+            }
+        }
+
         // --- Game Object Classes/Factories ---
 
-        // Buggy Object
+        // Buggy Object (Enhanced Draw, Hit method)
         function createBuggy() {
             return {
-                x: BUGGY_START_X,
-                y: GROUND_LEVEL_Y - BUGGY_HEIGHT,
-                w: BUGGY_WIDTH,
-                h: BUGGY_HEIGHT,
-                velocityY: 0,
-                isJumping: false,
-                onGround: true,
-                invulnerableTimer: 0, // Timer for flashing/invulnerability after hit
-                colorBody: '#ffff00', // Yellow body
-                colorWheels: '#888888', // Grey wheels
-                colorWindow: '#00eeee', // Cyan window
+                x: BUGGY_START_X, y: GROUND_LEVEL_Y - BUGGY_HEIGHT, w: BUGGY_WIDTH, h: BUGGY_HEIGHT,
+                velocityY: 0, isJumping: false, onGround: true, invulnerableTimer: 0,
+                colorBody: '#E0CA1A', colorWheels: '#666', colorWindow: '#40E0D0', colorGun: '#aaa',
 
                 draw() {
-                    // Flash if invulnerable
-                    if (this.invulnerableTimer > 0 && Math.floor(this.invulnerableTimer / 5) % 2 === 0) {
-                        return; // Skip drawing every few frames to create flash effect
-                    }
+                    if (this.invulnerableTimer > 0 && Math.floor(this.invulnerableTimer / 4) % 2 === 0) return; // Faster flash
 
-                    // Wheels (draw first)
-                    const wheelRadius = this.h * 0.4;
+                    // Wheels
+                    const wheelRadius = this.h * 0.45; // Slightly larger wheels
                     const wheelY = this.y + this.h - wheelRadius;
+                    const wheelX1 = this.x + this.w * 0.2;
+                    const wheelX2 = this.x + this.w * 0.8;
                     ctx.fillStyle = this.colorWheels;
-                    // Front wheel
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w * 0.8, wheelY, wheelRadius, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Rear wheel
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w * 0.2, wheelY, wheelRadius, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Simple inner wheel detail
-                    ctx.fillStyle = '#555';
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w * 0.8, wheelY, wheelRadius * 0.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w * 0.2, wheelY, wheelRadius * 0.5, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.beginPath(); ctx.arc(wheelX1, wheelY, wheelRadius, 0, Math.PI * 2); ctx.fill(); // Rear
+                    ctx.beginPath(); ctx.arc(wheelX2, wheelY, wheelRadius, 0, Math.PI * 2); ctx.fill(); // Front
+                    // Wheel detail
+                    ctx.fillStyle = '#444';
+                    ctx.beginPath(); ctx.arc(wheelX1, wheelY, wheelRadius * 0.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(wheelX2, wheelY, wheelRadius * 0.5, 0, Math.PI * 2); ctx.fill();
 
+                    // Body chassis (below main body)
+                    ctx.fillStyle = '#B0A010'; // Darker yellow/gold
+                    ctx.fillRect(this.x, this.y + this.h * 0.6, this.w, this.h * 0.4);
 
-                    // Body
+                    // Main Body
                     ctx.fillStyle = this.colorBody;
-                    ctx.fillRect(this.x, this.y, this.w, this.h * 0.7); // Main body lower part
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y + this.h * 0.6);
+                    ctx.lineTo(this.x + this.w * 0.1, this.y + this.h * 0.1);
+                    ctx.lineTo(this.x + this.w * 0.9, this.y + this.h * 0.1);
+                    ctx.lineTo(this.x + this.w, this.y + this.h * 0.6);
+                    ctx.closePath();
+                    ctx.fill();
 
-                    // Cabin/Top part
+                    // Cabin
                     ctx.fillStyle = this.colorWindow;
-                    ctx.fillRect(this.x + this.w * 0.3, this.y - this.h * 0.2, this.w * 0.5, this.h * 0.4); // Window
-                    ctx.fillStyle = this.colorBody;
-                    ctx.fillRect(this.x + this.w * 0.25, this.y - this.h * 0.25, this.w * 0.6, this.h * 0.2); // Roof
+                    ctx.beginPath();
+                    ctx.moveTo(this.x + this.w * 0.3, this.y + this.h * 0.1);
+                    ctx.lineTo(this.x + this.w * 0.4, this.y - this.h * 0.2); // Slanted windshield
+                    ctx.lineTo(this.x + this.w * 0.7, this.y - this.h * 0.2); // Roof top
+                    ctx.lineTo(this.x + this.w * 0.75, this.y + this.h * 0.1); // Back of cabin
+                    ctx.closePath();
+                    ctx.fill();
 
-
-                    // Gun (simple representation)
-                    ctx.fillStyle = '#aaaaaa'; // Light grey gun
-                    ctx.fillRect(this.x + this.w * 0.6, this.y + this.h * 0.1, this.w * 0.35, this.h * 0.15); // Forward gun barrel
-                    ctx.fillRect(this.x + this.w * 0.45, this.y - this.h * 0.1, this.h * 0.15, this.h * 0.3); // Upward gun barrel base
+                    // Gun
+                    ctx.fillStyle = this.colorGun;
+                    ctx.fillRect(this.x + this.w * 0.65, this.y + this.h * 0.2, this.w * 0.35, this.h * 0.15); // Forward barrel
+                    ctx.fillRect(this.x + this.w * 0.5, this.y - this.h * 0.1, this.w * 0.1, this.h * 0.3); // Upward base
                 },
-
                 update() {
-                    // Decrease invulnerability timer
-                    if (this.invulnerableTimer > 0) {
-                        this.invulnerableTimer--;
-                    }
-
-                    // Apply gravity if in the air
-                    if (this.isJumping || !this.onGround) {
-                        this.velocityY += GRAVITY;
-                        this.y += this.velocityY;
-                    }
-
-                    // Check if landed
-                    if (this.y >= GROUND_LEVEL_Y - this.h) {
-                        this.y = GROUND_LEVEL_Y - this.h;
-                        this.velocityY = 0;
-                        this.isJumping = false;
-                        this.onGround = true;
-                    } else {
-                        this.onGround = false;
-                    }
+                    if (this.invulnerableTimer > 0) this.invulnerableTimer--;
+                    if (this.isJumping || !this.onGround) { this.velocityY += GRAVITY; this.y += this.velocityY; }
+                    if (this.y >= GROUND_LEVEL_Y - this.h) { this.y = GROUND_LEVEL_Y - this.h; this.velocityY = 0; this.isJumping = false; this.onGround = true; }
+                    else { this.onGround = false; }
                 },
-
-                jump() {
-                    if (this.onGround) {
-                        this.velocityY = JUMP_VELOCITY;
-                        this.isJumping = true;
-                        this.onGround = false;
-                    }
-                },
-
+                jump() { if (this.onGround) { this.velocityY = JUMP_VELOCITY; this.isJumping = true; this.onGround = false; playSound('jump'); } },
                 shoot() {
-                    // Create both bullets simultaneously
-                    // Forward bullet
-                    forwardBullets.push({
-                        x: this.x + this.w, // Start at the front of the buggy
-                        y: this.y + this.h * 0.3, // Align with forward gun barrel visually
-                        w: BULLET_WIDTH,
-                        h: BULLET_HEIGHT,
-                        dx: FORWARD_BULLET_SPEED,
-                        dy: 0,
-                        alive: true,
-                        color: '#ff8800' // Orange forward bullet
-                    });
-                    // Upward bullet
-                    upwardBullets.push({
-                        x: this.x + this.w * 0.5, // Start near center top
-                        y: this.y - BULLET_HEIGHT, // Start above the buggy
-                        w: BULLET_HEIGHT, // Vertical bullet is thinner
-                        h: BULLET_WIDTH,
-                        dx: 0,
-                        dy: UPWARD_BULLET_SPEED,
-                        alive: true,
-                        color: '#00ff00' // Green upward bullet
-                    });
+                    forwardBullets.push({ x: this.x + this.w, y: this.y + this.h * 0.3, w: BULLET_WIDTH, h: BULLET_HEIGHT, dx: FORWARD_BULLET_SPEED, dy: 0, alive: true, color: '#ff8800' });
+                    upwardBullets.push({ x: this.x + this.w * 0.55, y: this.y - BULLET_HEIGHT, w: BULLET_HEIGHT, h: BULLET_WIDTH, dx: 0, dy: UPWARD_BULLET_SPEED, alive: true, color: '#00ff00' });
+                    playSound('shoot');
                 },
-                hit() {
-                    if (this.invulnerableTimer <= 0) {
-                        loseLife();
-                        this.invulnerableTimer = 90; // 1.5 seconds of flashing at 60fps
-                    }
-                }
+                hit() { if (this.invulnerableTimer <= 0) { loseLife(); this.invulnerableTimer = BUGGY_INVULNERABLE_DURATION; playSound('hit_buggy'); } }
             };
         }
 
         // --- Explosion Particle System ---
-        let particles = [];
+        // (createExplosion, updateParticles, drawParticles remain the same as previous version)
         function createExplosion(x, y, color = '#FFA500', count = 15, size = 3, speed = 3, duration = 30) {
-            for (let i = 0; i < count; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const currentSpeed = Math.random() * speed + 1;
-                particles.push({
-                    x: x,
-                    y: y,
-                    vx: Math.cos(angle) * currentSpeed,
-                    vy: Math.sin(angle) * currentSpeed,
-                    size: Math.random() * size + 1,
-                    color: color,
-                    life: duration, // Frames to live
-                    maxLife: duration
-                });
-            }
-        }
+             for (let i = 0; i < count; i++) {
+                 const angle = Math.random() * Math.PI * 2;
+                 const currentSpeed = Math.random() * speed + 1;
+                 particles.push({
+                     x: x, y: y,
+                     vx: Math.cos(angle) * currentSpeed, vy: Math.sin(angle) * currentSpeed,
+                     size: Math.random() * size + 1, color: color,
+                     life: duration, maxLife: duration
+                 });
+             }
+         }
+         function updateParticles() {
+             for (let i = particles.length - 1; i >= 0; i--) {
+                 const p = particles[i]; p.x += p.vx; p.y += p.vy; p.life--;
+                 if (p.life <= 0) particles.splice(i, 1);
+             }
+         }
+         function drawParticles() {
+             particles.forEach(p => {
+                 ctx.fillStyle = p.color; ctx.globalAlpha = p.life / p.maxLife;
+                 ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+             });
+             ctx.globalAlpha = 1.0;
+         }
 
-        function updateParticles() {
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.life--;
-                if (p.life <= 0) {
-                    particles.splice(i, 1); // Remove dead particle
-                }
-            }
-        }
-
-        function drawParticles() {
-            particles.forEach(p => {
-                ctx.fillStyle = p.color;
-                ctx.globalAlpha = p.life / p.maxLife; // Fade out
-                ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
-            });
-            ctx.globalAlpha = 1.0; // Reset alpha
-        }
-
-
-        // Bullet Object (Generic Update/Draw)
+        // Bullet Object (Update/Draw remain the same)
         function updateBullet(bullet) {
-            bullet.x += bullet.dx;
-            bullet.y += bullet.dy;
-            // Check bounds (remove if off-screen)
-            if (bullet.x > INTERNAL_WIDTH + 50 || bullet.x < -50 || bullet.y < -50 || bullet.y > INTERNAL_HEIGHT + 50) {
-                bullet.alive = false;
-            }
+            bullet.x += bullet.dx; bullet.y += bullet.dy;
+            if (bullet.x > INTERNAL_WIDTH + 50 || bullet.x < -50 || bullet.y < -50 || bullet.y > INTERNAL_HEIGHT + 50) bullet.alive = false;
         }
-        function drawBullet(bullet) {
-            ctx.fillStyle = bullet.color;
-            ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
-        }
+        function drawBullet(bullet) { ctx.fillStyle = bullet.color; ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h); }
 
-        // Obstacle Object
+        // Obstacle Object (Enhanced Draw)
         function createObstacle() {
             const typeRoll = Math.random();
             let obstacle = {
-                x: INTERNAL_WIDTH + random(50, 200), // Spawn off-screen right
-                y: 0, // Set Y based on type
-                w: 0,
-                h: 0,
-                type: '',
-                alive: true,
-                color: '#ff0000', // Default red
-                scored: false // Flag to prevent scoring multiple times (e.g., jumping crater)
+                x: INTERNAL_WIDTH + random(50, 200), y: 0, w: 0, h: 0, type: '', alive: true, color: '#ff0000', scored: false
             };
-
-            if (typeRoll < 0.4) { // 40% chance Crater
-                obstacle.type = 'crater';
-                obstacle.w = CRATER_WIDTH + random(-5, 5);
-                obstacle.h = CRATER_HEIGHT + random(-3, 3);
-                obstacle.y = GROUND_LEVEL_Y - obstacle.h; // Craters are depressions, draw differently
-                obstacle.color = '#5a3d2b'; // Brownish color for crater hole
-            } else if (typeRoll < 0.75) { // 35% chance Rock
-                obstacle.type = 'rock';
-                obstacle.w = ROCK_WIDTH + random(-5, 5);
-                obstacle.h = ROCK_HEIGHT + random(-10, 10);
-                obstacle.y = GROUND_LEVEL_Y - obstacle.h; // Rocks sit on the ground
-                obstacle.color = '#aaaaaa'; // Grey rock
-            } else { // 25% chance Mine
-                obstacle.type = 'mine';
-                obstacle.w = MINE_WIDTH;
-                obstacle.h = MINE_HEIGHT;
-                obstacle.y = GROUND_LEVEL_Y - obstacle.h; // Mines sit low on the ground
-                obstacle.color = '#ff00ff'; // Magenta mine
+            if (typeRoll < 0.4) { // Crater
+                obstacle.type = 'crater'; obstacle.w = CRATER_WIDTH + random(-5, 5); obstacle.h = CRATER_HEIGHT + random(-3, 3);
+                obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#5a3d2b';
+            } else if (typeRoll < 0.75) { // Rock
+                obstacle.type = 'rock'; obstacle.w = ROCK_WIDTH + random(-5, 10); obstacle.h = ROCK_HEIGHT + random(-10, 15);
+                obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#999'; // Lighter grey
+                 // Add jagged points for drawing
+                 obstacle.points = [];
+                 let currentX = 0;
+                 while (currentX < obstacle.w) {
+                     obstacle.points.push({x: currentX, y: random(0, obstacle.h * 0.4)}); // Random top points
+                     currentX += random(obstacle.w * 0.1, obstacle.w * 0.3);
+                 }
+                 obstacle.points.push({x: obstacle.w, y: random(0, obstacle.h * 0.4)});
+            } else { // Mine
+                obstacle.type = 'mine'; obstacle.w = MINE_WIDTH; obstacle.h = MINE_HEIGHT;
+                obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#ff00ff';
             }
             return obstacle;
         }
-
-        function updateObstacle(obstacle) {
-            obstacle.x -= obstacleScrollSpeed;
-            if (obstacle.x + obstacle.w < 0) { // Off-screen left
-                obstacle.alive = false;
-            }
-
-            // Special check for jumping over craters
-            if (obstacle.type === 'crater' && !obstacle.scored && buggy.isJumping) {
-                // Check if buggy's horizontal range overlaps the crater while jumping
-                if (buggy.x + buggy.w > obstacle.x && buggy.x < obstacle.x + obstacle.w) {
-                     // Check if buggy's lowest point during this frame is above the ground
-                     // This is a simplification - assumes jump clears the whole crater width
-                     if (buggy.y + buggy.h < GROUND_LEVEL_Y - 5) { // Check if well above ground
-                        score += POINTS_CRATER_JUMP;
-                        obstacle.scored = true; // Mark as scored
-                        // Optional: Add a visual indicator or sound effect here
-                     }
-                }
-            }
-        }
-
+        function updateObstacle(obstacle) { /* (Logic remains the same) */
+             obstacle.x -= obstacleScrollSpeed;
+             if (obstacle.x + obstacle.w < 0) obstacle.alive = false;
+             if (buggy && obstacle.type === 'crater' && !obstacle.scored && buggy.isJumping) { // Check if buggy exists
+                 if (buggy.x + buggy.w > obstacle.x && buggy.x < obstacle.x + obstacle.w) {
+                      if (buggy.y + buggy.h < GROUND_LEVEL_Y - 5) {
+                         score += POINTS_CRATER_JUMP; obstacle.scored = true;
+                      }
+                 }
+             }
+         }
         function drawObstacle(obstacle) {
             if (obstacle.type === 'crater') {
-                // Draw crater as a hole/shadow
-                ctx.fillStyle = obstacle.color;
-                ctx.beginPath();
-                ctx.ellipse(obstacle.x + obstacle.w / 2, GROUND_LEVEL_Y - obstacle.h / 2, obstacle.w / 2, obstacle.h / 2, 0, 0, Math.PI * 2);
+                ctx.fillStyle = obstacle.color; ctx.beginPath();
+                ctx.ellipse(obstacle.x + obstacle.w / 2, GROUND_LEVEL_Y, obstacle.w / 2, obstacle.h, 0, 0, Math.PI, true); // Draw bottom half ellipse on ground
                 ctx.fill();
-                // Add a slight darker edge
-                ctx.strokeStyle = '#3d2b1f';
-                ctx.lineWidth = 2;
-                ctx.stroke();
+                ctx.strokeStyle = '#3d2b1f'; ctx.lineWidth = 1; ctx.stroke(); // Outline
             } else if (obstacle.type === 'mine') {
-                 // Draw mine with a blinking light
-                 ctx.fillStyle = obstacle.color;
-                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.w, obstacle.h);
-                 // Blinking light
-                 if (Math.floor(Date.now() / 300) % 2 === 0) {
-                    ctx.fillStyle = '#ffffff'; // White light
-                    ctx.fillRect(obstacle.x + obstacle.w * 0.4, obstacle.y + obstacle.h * 0.3, obstacle.w * 0.2, obstacle.h * 0.4);
+                 ctx.fillStyle = obstacle.color; ctx.fillRect(obstacle.x, obstacle.y, obstacle.w, obstacle.h); // Body
+                 ctx.fillStyle = '#aaa'; ctx.fillRect(obstacle.x + obstacle.w*0.1, obstacle.y - obstacle.h*0.2, obstacle.w*0.8, obstacle.h*0.2); // Top plate
+                 if (Math.floor(Date.now() / 200) % 2 === 0) { // Faster blink
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(obstacle.x + obstacle.w * 0.4, obstacle.y - obstacle.h*0.1, obstacle.w * 0.2, obstacle.h * 0.1); // Light
                  }
-            }
-            else { // Rock
-                ctx.fillStyle = obstacle.color;
-                // Draw a jagged rock shape
-                ctx.beginPath();
-                ctx.moveTo(obstacle.x, obstacle.y + obstacle.h);
-                ctx.lineTo(obstacle.x + obstacle.w * 0.2, obstacle.y + obstacle.h * 0.5);
-                ctx.lineTo(obstacle.x + obstacle.w * 0.5, obstacle.y);
-                ctx.lineTo(obstacle.x + obstacle.w * 0.8, obstacle.y + obstacle.h * 0.6);
-                ctx.lineTo(obstacle.x + obstacle.w, obstacle.y + obstacle.h);
-                ctx.closePath();
-                ctx.fill();
-                // Add outline
-                ctx.strokeStyle = '#777777';
-                ctx.lineWidth = 1;
-                ctx.stroke();
+            } else if (obstacle.type === 'rock' && obstacle.points) { // Rock - draw jagged
+                ctx.fillStyle = obstacle.color; ctx.beginPath();
+                ctx.moveTo(obstacle.x, obstacle.y + obstacle.h); // Bottom left
+                // Draw top jagged edge
+                obstacle.points.forEach(p => ctx.lineTo(obstacle.x + p.x, obstacle.y + p.y));
+                ctx.lineTo(obstacle.x + obstacle.w, obstacle.y + obstacle.h); // Bottom right
+                ctx.closePath(); ctx.fill();
+                // Outline
+                ctx.strokeStyle = '#666'; ctx.lineWidth = 1; ctx.stroke();
             }
         }
 
-        // UFO Object
+        // UFO Object (Enhanced Draw, Types, Shooting)
         function createUFO() {
             const startY = random(INTERNAL_HEIGHT * 0.1, INTERNAL_HEIGHT * 0.4);
+            const typeRoll = Math.random();
+            let ufoType = 'standard'; // Default
+            let colorBody = '#00dd00'; // Bright Green
+            let colorLights = '#ff0000'; // Red
+            let shootTimerMax = 150; // Standard shoot rate
+
+            if (typeRoll > 0.7 && currentStageIndex > 0) { // Bomber appears later
+                ufoType = 'bomber';
+                colorBody = '#cc00cc'; // Magenta
+                colorLights = '#ffff00'; // Yellow lights
+                shootTimerMax = 100; // Bombers drop more often
+            } else if (typeRoll > 0.4 && currentStageIndex > 1) { // Faster saucer appears later
+                 ufoType = 'scout';
+                 colorBody = '#00cccc'; // Cyan
+                 colorLights = '#ffffff'; // White lights
+                 shootTimerMax = 180; // Scouts shoot less often?
+            }
+
             return {
-                x: INTERNAL_WIDTH + random(50, 150),
-                y: startY,
-                w: UFO_WIDTH,
-                h: UFO_HEIGHT,
-                dx: UFO_SPEED_X * (1 + random(-0.2, 0.2)), // Slight speed variation
-                dy: UFO_SPEED_Y_WAVE * (Math.random() < 0.5 ? 1 : -1), // Initial vertical direction
-                startY: startY, // Remember starting Y for wave motion
-                waveAmplitude: random(15, 40),
-                alive: true,
-                colorBody: '#00ff00', // Green UFO body
-                colorLights: '#ff0000', // Red lights
+                x: INTERNAL_WIDTH + random(50, 150), y: startY, w: UFO_WIDTH, h: UFO_HEIGHT,
+                dx: UFO_SPEED_X_BASE * (1 + random(-0.2, 0.2)) * (ufoType === 'scout' ? 1.5 : 1), // Scouts faster
+                dy: UFO_SPEED_Y_WAVE * (Math.random() < 0.5 ? 1 : -1),
+                startY: startY, waveAmplitude: random(15, 40),
+                alive: true, type: ufoType,
+                colorBody: colorBody, colorLights: colorLights,
+                shootTimer: random(shootTimerMax * 0.5, shootTimerMax) // Random initial timer
             };
         }
-
         function updateUFO(ufo) {
-            ufo.x += ufo.dx;
-            // Simple wave motion vertically
-            ufo.y += ufo.dy;
-            if (ufo.y > ufo.startY + ufo.waveAmplitude || ufo.y < ufo.startY - ufo.waveAmplitude) {
-                ufo.dy *= -1; // Reverse vertical direction
-            }
+            ufo.x += ufo.dx; ufo.y += ufo.dy;
+            if (ufo.y > ufo.startY + ufo.waveAmplitude || ufo.y < ufo.startY - ufo.waveAmplitude) ufo.dy *= -1;
+            if (ufo.x + ufo.w < 0) ufo.alive = false;
 
-            if (ufo.x + ufo.w < 0) { // Off-screen left
-                ufo.alive = false;
+            // Shooting / Bombing
+            ufo.shootTimer--;
+            if (buggy && ufo.shootTimer <= 0 && ufo.x < INTERNAL_WIDTH * 0.9 && ufo.x > 0) { // Check buggy exists, Only shoot when on screen
+                if (ufo.type === 'bomber') {
+                    enemyBombs.push(createEnemyBomb(ufo.x + ufo.w / 2, ufo.y + ufo.h, true)); // Drop bomb straight down
+                } else { // Standard and Scout shoot bombs towards buggy
+                    enemyBombs.push(createEnemyBomb(ufo.x + ufo.w / 2, ufo.y + ufo.h, false));
+                }
+                ufo.shootTimer = random(MIN_UFO_SPAWN_RATE, UFO_SPAWN_RATE_START); // Reset timer (use general rates for simplicity)
             }
-            // Add shooting logic here later if needed
         }
-
-        function drawUFO(ufo) {
-            // Saucer shape
-            ctx.fillStyle = ufo.colorBody;
+        function drawUFO(ufo) { /* (Drawing logic remains mostly the same, uses ufo.colorBody/colorLights) */
+            ctx.fillStyle = ufo.colorBody; ctx.beginPath();
+            ctx.ellipse(ufo.x + ufo.w / 2, ufo.y + ufo.h * 0.6, ufo.w / 2, ufo.h * 0.4, 0, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath();
-            ctx.ellipse(ufo.x + ufo.w / 2, ufo.y + ufo.h * 0.6, ufo.w / 2, ufo.h * 0.4, 0, 0, Math.PI * 2); // Bottom ellipse
-            ctx.fill();
-            // Dome
-            ctx.beginPath();
-            ctx.ellipse(ufo.x + ufo.w / 2, ufo.y + ufo.h * 0.3, ufo.w * 0.3, ufo.h * 0.3, 0, Math.PI, 0); // Top semi-ellipse
-            ctx.fill();
-
-            // Blinking lights
-            ctx.fillStyle = ufo.colorLights;
-            const lightRadius = ufo.w * 0.05;
+            ctx.ellipse(ufo.x + ufo.w / 2, ufo.y + ufo.h * 0.3, ufo.w * 0.3, ufo.h * 0.3, 0, Math.PI, 0); ctx.fill();
+            ctx.fillStyle = ufo.colorLights; const lightRadius = ufo.w * 0.05;
             if (Math.floor(Date.now() / 250) % 2 === 0) {
-                ctx.beginPath();
-                ctx.arc(ufo.x + ufo.w * 0.2, ufo.y + ufo.h * 0.7, lightRadius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(ufo.x + ufo.w * 0.8, ufo.y + ufo.h * 0.7, lightRadius, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(ufo.x + ufo.w * 0.2, ufo.y + ufo.h * 0.7, lightRadius, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(ufo.x + ufo.w * 0.8, ufo.y + ufo.h * 0.7, lightRadius, 0, Math.PI * 2); ctx.fill();
             } else {
-                 ctx.beginPath();
-                ctx.arc(ufo.x + ufo.w * 0.5, ufo.y + ufo.h * 0.8, lightRadius, 0, Math.PI * 2);
-                ctx.fill();
+                 ctx.beginPath(); ctx.arc(ufo.x + ufo.w * 0.5, ufo.y + ufo.h * 0.8, lightRadius, 0, Math.PI * 2); ctx.fill();
             }
         }
 
-        // --- Background Elements ---
-        function createStar() {
+        // Enemy Bomb Object
+        function createEnemyBomb(startX, startY, dropStraight = false) {
+            let targetX = buggy ? buggy.x + buggy.w / 2 : INTERNAL_WIDTH * 0.5; // Target buggy or center if buggy gone
+            let targetY = GROUND_LEVEL_Y;
+            let dx = 0;
+            let dy = ENEMY_BOMB_SPEED; // Default drop straight
+
+            if (!dropStraight) { // Aimed shot
+                const angle = Math.atan2(targetY - startY, targetX - startX);
+                dx = Math.cos(angle) * ENEMY_BOMB_SPEED * 0.8; // Slower horizontal for arcing
+                dy = Math.sin(angle) * ENEMY_BOMB_SPEED;
+            }
+
             return {
-                x: random(0, INTERNAL_WIDTH),
-                y: random(0, GROUND_LEVEL_Y * 0.9), // Keep stars above ground/mountains
-                radius: random(0.5, 1.5),
-                opacity: random(0.3, 0.9),
-                alive: true // Add alive flag for filtering
+                x: startX, y: startY, w: 6, h: 6, // Small bombs
+                dx: dx, dy: dy, alive: true, color: '#ff4444' // Reddish bomb
             };
         }
+        function updateEnemyBomb(bomb) {
+            bomb.x += bomb.dx; bomb.y += bomb.dy;
+            // Add slight gravity effect to aimed shots
+            if (bomb.dx !== 0) bomb.dy += GRAVITY * 0.1;
+            if (bomb.y >= GROUND_LEVEL_Y - bomb.h) { // Hit ground
+                bomb.alive = false;
+                createExplosion(bomb.x, GROUND_LEVEL_Y, '#ff4444', 10, 2, 2, 20); // Small ground explosion
+                // Create crater obstacle
+                 obstacles.push({
+                     x: bomb.x - CRATER_WIDTH / 2, y: GROUND_LEVEL_Y - CRATER_HEIGHT,
+                     w: CRATER_WIDTH, h: CRATER_HEIGHT, type: 'crater', alive: true,
+                     color: '#5a3d2b', scored: false
+                 });
+            }
+            if (bomb.x < -bomb.w || bomb.x > INTERNAL_WIDTH + bomb.w) bomb.alive = false; // Off screen horizontal
+        }
+        function drawEnemyBomb(bomb) { ctx.fillStyle = bomb.color; ctx.fillRect(bomb.x, bomb.y, bomb.w, bomb.h); }
+
+
+        // Background Elements
+        function createStar() { return { x: random(0, INTERNAL_WIDTH), y: random(0, GROUND_LEVEL_Y * 0.9), radius: random(0.5, 1.5), opacity: random(0.3, 0.9), alive: true }; }
         function createMountainSegment(isNear) {
              const speedFactor = isNear ? NEAR_MOUNTAIN_SPEED_FACTOR : FAR_MOUNTAIN_SPEED_FACTOR;
              const minHeight = isNear ? INTERNAL_HEIGHT * 0.2 : INTERNAL_HEIGHT * 0.1;
              const maxHeight = isNear ? INTERNAL_HEIGHT * 0.4 : INTERNAL_HEIGHT * 0.25;
-             const color = isNear ? '#4a4a6a' : '#3a3a5a'; // Near mountains slightly lighter/bluer
-             const height = random(minHeight, maxHeight);
-             const width = random(100, 300);
-             return {
-                 x: INTERNAL_WIDTH + random(10, 50), // Start off screen
-                 y: GROUND_LEVEL_Y - height,
-                 w: width,
-                 h: height,
-                 speed: obstacleScrollSpeed * speedFactor,
-                 color: color,
-                 isNear: isNear,
-                 alive: true
-             };
+             // FIX: Use stageTint variable name
+             const stageTint = Math.min(currentStageIndex * 15, 60); // Get darker/bluer in later stages
+             const baseNearColor = [Math.max(0, 0x4a - stageTint), Math.max(0, 0x4a - stageTint), Math.max(0, 0x6a)]; // Ensure non-negative
+             const baseFarColor = [Math.max(0, 0x3a - stageTint), Math.max(0, 0x3a - stageTint), Math.max(0, 0x5a)];
+             const color = isNear ? `rgb(${baseNearColor[0]}, ${baseNearColor[1]}, ${baseNearColor[2]})` : `rgb(${baseFarColor[0]}, ${baseFarColor[1]}, ${baseFarColor[2]})`;
+             const height = random(minHeight, maxHeight); const width = random(100, 300);
+             return { x: INTERNAL_WIDTH + random(10, 50), y: GROUND_LEVEL_Y - height, w: width, h: height, speed: obstacleScrollSpeed * speedFactor, color: color, isNear: isNear, alive: true };
         }
         function updateBackgroundElement(element) {
-             // Ensure element and speed are defined
-             if (!element || typeof element.speed !== 'number') {
-                 // console.warn("Updating invalid background element:", element);
-                 if(element) element.alive = false; // Mark invalid elements as not alive
-                 return;
-             }
+             if (!element || typeof element.speed !== 'number') { if(element) element.alive = false; return; }
              element.x -= element.speed;
-             if (element.x + (element.w || element.radius * 2 || 0) < 0) { // Added fallback for width/radius
-                 element.alive = false;
-             }
-             // Update speed if obstacle speed changes
+             if (element.x + (element.w || element.radius * 2 || 0) < 0) element.alive = false;
              if (element.isNear !== undefined) {
                  const speedFactor = element.isNear ? NEAR_MOUNTAIN_SPEED_FACTOR : FAR_MOUNTAIN_SPEED_FACTOR;
                  element.speed = obstacleScrollSpeed * speedFactor;
+                 // Update color based on stage if needed
+                 // FIX: Use stageTint variable name
+                 const stageTint = Math.min(currentStageIndex * 15, 60);
+                 const baseNearColor = [Math.max(0, 0x4a - stageTint), Math.max(0, 0x4a - stageTint), Math.max(0, 0x6a)];
+                 const baseFarColor = [Math.max(0, 0x3a - stageTint), Math.max(0, 0x3a - stageTint), Math.max(0, 0x5a)];
+                 element.color = element.isNear ? `rgb(${baseNearColor[0]}, ${baseNearColor[1]}, ${baseNearColor[2]})` : `rgb(${baseFarColor[0]}, ${baseFarColor[1]}, ${baseFarColor[2]})`;
              }
         }
-         function drawStar(star) {
-             ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-             ctx.beginPath();
-             ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-             ctx.fill();
-         }
-         function drawMountain(mountain) {
-             ctx.fillStyle = mountain.color;
-             ctx.beginPath();
-             ctx.moveTo(mountain.x, GROUND_LEVEL_Y); // Start at ground level left
-             ctx.lineTo(mountain.x + mountain.w / 2, mountain.y); // Peak
-             ctx.lineTo(mountain.x + mountain.w, GROUND_LEVEL_Y); // End at ground level right
-             ctx.closePath();
-             ctx.fill();
-         }
-         function manageBackgroundElements() {
-             // Remove off-screen elements using the alive flag
+        function drawStar(star) { ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; ctx.beginPath(); ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2); ctx.fill(); }
+        function drawMountain(mountain) { ctx.fillStyle = mountain.color; ctx.beginPath(); ctx.moveTo(mountain.x, GROUND_LEVEL_Y); ctx.lineTo(mountain.x + mountain.w / 2, mountain.y); ctx.lineTo(mountain.x + mountain.w, GROUND_LEVEL_Y); ctx.closePath(); ctx.fill(); }
+        function manageBackgroundElements() {
              backgroundStars = backgroundStars.filter(s => s.alive);
              backgroundMountainsNear = backgroundMountainsNear.filter(m => m.alive);
              backgroundMountainsFar = backgroundMountainsFar.filter(m => m.alive);
-
-             // Add new stars occasionally
-             if (Math.random() < 0.5 && backgroundStars.length < 150) { // Limit star count
-                 const newStar = createStar();
-                 newStar.x = INTERNAL_WIDTH + 5; // Start just off screen
-                 backgroundStars.push(newStar);
-             }
-
-             // Add new mountains if needed (check last mountain position)
+             if (Math.random() < 0.5 && backgroundStars.length < 150) { const newStar = createStar(); newStar.x = INTERNAL_WIDTH + 5; backgroundStars.push(newStar); }
              const lastNearMountain = backgroundMountainsNear[backgroundMountainsNear.length - 1];
-             if (!lastNearMountain || lastNearMountain.x + lastNearMountain.w < INTERNAL_WIDTH + 100) {
-                 backgroundMountainsNear.push(createMountainSegment(true));
-             }
+             if (!lastNearMountain || lastNearMountain.x + lastNearMountain.w < INTERNAL_WIDTH + 100) backgroundMountainsNear.push(createMountainSegment(true));
              const lastFarMountain = backgroundMountainsFar[backgroundMountainsFar.length - 1];
-             if (!lastFarMountain || lastFarMountain.x + lastFarMountain.w < INTERNAL_WIDTH + 150) {
-                 backgroundMountainsFar.push(createMountainSegment(false));
-             }
-
-             // Update positions
+             if (!lastFarMountain || lastFarMountain.x + lastFarMountain.w < INTERNAL_WIDTH + 150) backgroundMountainsFar.push(createMountainSegment(false));
              backgroundStars.forEach(updateBackgroundElement);
              backgroundMountainsNear.forEach(updateBackgroundElement);
              backgroundMountainsFar.forEach(updateBackgroundElement);
          }
 
-
-        // --- Collision Handling ---
+        // --- Collision Handling (Enhanced) ---
         function handleCollisions() {
-            // Ensure buggy exists before checking collisions
             if (!buggy) return;
 
             // 1. Buggy vs Obstacles
             obstacles.forEach(obstacle => {
                 if (!obstacle.alive) return;
-
                 const buggyBox = { x: buggy.x, y: buggy.y, w: buggy.w, h: buggy.h };
                 let obstacleBox;
                 if (obstacle.type === 'crater') {
                      obstacleBox = { x: obstacle.x, y: GROUND_LEVEL_Y - 5, w: obstacle.w, h: 5 };
                      if (checkCollision(buggyBox, obstacleBox) && buggy.onGround) {
-                         buggy.hit(); // Use hit method for invulnerability
-                         createExplosion(buggy.x + buggy.w / 2, buggy.y + buggy.h / 2, '#ff0000'); // Red explosion for crash
+                         buggy.hit();
+                         createExplosion(buggy.x + buggy.w / 2, buggy.y + buggy.h / 2, '#ff0000', 25, 4, 4, 40); // Bigger crash explosion
                      }
                 } else { // Rocks and Mines
                      obstacleBox = { x: obstacle.x, y: obstacle.y, w: obstacle.w, h: obstacle.h };
                      if (checkCollision(buggyBox, obstacleBox)) {
-                         buggy.hit(); // Use hit method
-                         obstacle.alive = false; // Destroy obstacle on collision
-                         createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color); // Explosion with obstacle color
+                         buggy.hit();
+                         obstacle.alive = false;
+                         createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color);
+                         playSound('explosion_obstacle');
                      }
                 }
             });
 
-            // 2. Forward Bullets vs Obstacles (Rocks and Mines only)
+            // 2. Forward Bullets vs Obstacles (Rocks and Mines)
             forwardBullets.forEach(bullet => {
                 if (!bullet.alive) return;
                 obstacles.forEach(obstacle => {
@@ -1044,10 +1069,10 @@
                     const bulletBox = { x: bullet.x, y: bullet.y, w: bullet.w, h: bullet.h };
                     const obstacleBox = { x: obstacle.x, y: obstacle.y, w: obstacle.w, h: obstacle.h };
                     if (checkCollision(bulletBox, obstacleBox)) {
-                        bullet.alive = false;
-                        obstacle.alive = false;
+                        bullet.alive = false; obstacle.alive = false;
                         score += (obstacle.type === 'rock' ? POINTS_ROCK : POINTS_MINE);
-                        createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color); // Explosion
+                        createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color);
+                        playSound('explosion_obstacle');
                     }
                 });
             });
@@ -1060,10 +1085,10 @@
                     const bulletBox = { x: bullet.x, y: bullet.y, w: bullet.w, h: bullet.h };
                     const ufoBox = { x: ufo.x, y: ufo.y, w: ufo.w, h: ufo.h };
                     if (checkCollision(bulletBox, ufoBox)) {
-                        bullet.alive = false;
-                        ufo.alive = false;
+                        bullet.alive = false; ufo.alive = false;
                         score += POINTS_UFO;
-                        createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody); // Explosion
+                        createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody, 20, 4, 4, 35);
+                        playSound('explosion_ufo');
                     }
                 });
             });
@@ -1074,29 +1099,66 @@
                  const buggyBox = { x: buggy.x, y: buggy.y, w: buggy.w, h: buggy.h };
                  const ufoBox = { x: ufo.x, y: ufo.y, w: ufo.w, h: ufo.h };
                  if (checkCollision(buggyBox, ufoBox)) {
-                     buggy.hit(); // Use hit method
-                     ufo.alive = false; // UFO also destroyed
-                     createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody); // Explosion
+                     buggy.hit(); ufo.alive = false;
+                     createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody);
+                     playSound('explosion_ufo');
                  }
             });
 
-            // 5. Enemy Bullets vs Buggy (Add later)
+            // 5. Enemy Bombs vs Buggy
+            enemyBombs.forEach(bomb => {
+                if (!bomb.alive) return;
+                const buggyBox = { x: buggy.x, y: buggy.y, w: buggy.w, h: buggy.h };
+                const bombBox = { x: bomb.x, y: bomb.y, w: bomb.w, h: bomb.h };
+                if (checkCollision(buggyBox, bombBox)) {
+                    bomb.alive = false;
+                    buggy.hit();
+                    createExplosion(bomb.x, bomb.y, bomb.color, 10, 3, 3, 25); // Bomb hit explosion
+                }
+            });
+
+            // 6. Player Bullets vs Enemy Bombs (Upward vs Bomb)
+             upwardBullets.forEach(bullet => {
+                 if (!bullet.alive) return;
+                 enemyBombs.forEach(bomb => {
+                     if (!bomb.alive) return;
+                     const bulletBox = { x: bullet.x, y: bullet.y, w: bullet.w, h: bullet.h };
+                     const bombBox = { x: bomb.x, y: bomb.y, w: bomb.w, h: bomb.h };
+                     if (checkCollision(bulletBox, bombBox)) {
+                         bullet.alive = false;
+                         bomb.alive = false;
+                         score += POINTS_ENEMY_BOMB;
+                         createExplosion(bomb.x, bomb.y, bomb.color, 8, 2, 2, 20); // Small explosion for bomb hit
+                         playSound('hit_bomb');
+                     }
+                 });
+             });
+             // (Optional: Forward bullets vs Bomb - less likely but possible)
+             forwardBullets.forEach(bullet => {
+                 if (!bullet.alive) return;
+                 enemyBombs.forEach(bomb => {
+                     if (!bomb.alive) return;
+                      const bulletBox = { x: bullet.x, y: bullet.y, w: bullet.w, h: bullet.h };
+                      const bombBox = { x: bomb.x, y: bomb.y, w: bomb.w, h: bomb.h };
+                      if (checkCollision(bulletBox, bombBox)) {
+                          bullet.alive = false; bomb.alive = false;
+                          score += POINTS_ENEMY_BOMB;
+                          createExplosion(bomb.x, bomb.y, bomb.color, 8, 2, 2, 20);
+                          playSound('hit_bomb');
+                      }
+                 });
+             });
         }
 
-
-        function loseLife() {
-            // This function is now mainly called by buggy.hit() after checking invulnerability
-            if (isGameOver) return;
-            lives--;
+        function loseLife() { /* (Logic remains the same) */
+            if (isGameOver) return; lives--;
             console.log("Life lost, lives remaining:", lives);
-            if (lives <= 0) {
-                gameOver();
-            } else {
-                // Reset buggy position slightly (maybe?) or just flash
-                buggy.y = GROUND_LEVEL_Y - buggy.h; // Ensure it's on ground
-                buggy.isJumping = false;
-                buggy.onGround = true;
-                buggy.velocityY = 0;
+            if (lives <= 0) { gameOver(); }
+            else {
+                if(buggy) { // Ensure buggy exists before resetting position
+                    buggy.y = GROUND_LEVEL_Y - buggy.h; buggy.isJumping = false;
+                    buggy.onGround = true; buggy.velocityY = 0;
+                }
             }
             updateUI();
         }
@@ -1106,340 +1168,232 @@
              if (!courseSelected) return;
              console.log(`Starting ${selectedCourse} course`);
 
-             // Reset game state
-             score = 0;
-             lives = STARTING_LIVES;
-             currentCheckpointIndex = 0;
-             distanceScrolled = 0;
+             // Start Audio Context on user interaction
+             if (Tone.context.state !== 'running') {
+                 Tone.start().then(() => {
+                     console.log("Audio Context started!");
+                     initSounds(); // Initialize synths after context is running
+                 }).catch(e => {
+                     console.error("Failed to start Audio Context:", e);
+                     soundsReady = false; // Ensure sounds are disabled
+                 });
+             } else if (!soundsReady) {
+                 // If context was already running but synths not init'd (e.g., restart)
+                 initSounds();
+             }
+
+
+             score = 0; lives = STARTING_LIVES; currentCheckpointIndex = 0; distanceScrolled = 0;
+             currentStageIndex = 0; // Reset stage index
              obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START;
              obstacleSpawnRate = OBSTACLE_SPAWN_RATE_START;
              ufoSpawnRate = UFO_SPAWN_RATE_START;
-             obstacleSpawnTimer = obstacleSpawnRate; // Start ready to spawn
-             ufoSpawnTimer = ufoSpawnRate;
+             obstacleSpawnTimer = obstacleSpawnRate; ufoSpawnTimer = ufoSpawnRate;
+             isGameOver = false; isPaused = false; gameHasStarted = true;
 
-             isGameOver = false;
-             isPaused = false;
-             gameHasStarted = true;
-
-             // Clear object arrays
-             forwardBullets = [];
-             upwardBullets = [];
-             obstacles = [];
-             ufos = [];
-             particles = []; // Clear particles
-             backgroundStars = [];
-             backgroundMountainsNear = [];
-             backgroundMountainsFar = [];
-
-             // Initialize background elements
-             for (let i = 0; i < 50; i++) backgroundStars.push(createStar()); // Initial stars
+             forwardBullets = []; upwardBullets = []; obstacles = []; ufos = []; enemyBombs = []; particles = [];
+             backgroundStars = []; backgroundMountainsNear = []; backgroundMountainsFar = [];
+             for (let i = 0; i < 50; i++) backgroundStars.push(createStar());
              for (let i = 0; i < 5; i++) backgroundMountainsFar.push(createMountainSegment(false));
              for (let i = 0; i < 3; i++) backgroundMountainsNear.push(createMountainSegment(true));
 
-
-             // Create buggy
              buggy = createBuggy();
 
-             // Reset UI
-             startMenuContainer.style.display = 'none';
-             canvasContainer.style.display = 'block';
-             canvas.style.display = 'block';
-             uiContainer.style.display = 'flex';
-             controlsContainer.style.display = 'flex';
-             hideMessage();
-             pauseOverlay.style.display = 'none';
+             startMenuContainer.style.display = 'none'; canvasContainer.style.display = 'block';
+             canvas.style.display = 'block'; uiContainer.style.display = 'flex';
+             controlsContainer.style.display = 'flex'; hideMessage(); pauseOverlay.style.display = 'none';
              canvas.style.cursor = 'default';
 
-             // Update High Score display
              highScore = parseInt(localStorage.getItem('moonPatrolHighScore') || '0');
              updateUI();
 
-             // Show controls
-             restartButton.style.display = 'inline-block';
-             pauseButton.style.display = 'inline-block';
-             pauseButton.textContent = 'Pause';
-             pauseButton.disabled = false;
+             restartButton.style.display = 'inline-block'; pauseButton.style.display = 'inline-block';
+             pauseButton.textContent = 'Pause'; pauseButton.disabled = false;
 
-             // Start game loop
+             // Show mobile controls if touch device
+             isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+             if (isTouchDevice) {
+                 mobileControlsDiv.style.display = 'flex';
+             } else {
+                 mobileControlsDiv.style.display = 'none';
+             }
+
              if (gameLoopId) cancelAnimationFrame(gameLoopId);
              gameLoop();
         }
 
         function updateCheckpointsAndDifficulty() {
-            // Ensure obstacleScrollSpeed is a number before adding
-            if (typeof obstacleScrollSpeed !== 'number') {
-                console.error("obstacleScrollSpeed is not a number:", obstacleScrollSpeed);
-                obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START; // Reset to default
-            }
+            if (typeof obstacleScrollSpeed !== 'number') { obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START; }
             distanceScrolled += obstacleScrollSpeed;
             const nextCheckpointDist = (currentCheckpointIndex + 1) * CHECKPOINT_DISTANCE;
 
             if (distanceScrolled >= nextCheckpointDist) {
                 currentCheckpointIndex++;
-                // Check if game ends after Z
                 if (currentCheckpointIndex >= ALPHABET.length) {
-                     if (selectedCourse === 'beginner') {
-                         // Beginner course ends - show completion message?
-                         gameOver(true); // Pass flag indicating course complete
-                         return;
-                     } else {
-                         // Champion course loops - reset checkpoint index, increase difficulty
-                         currentCheckpointIndex = 0;
-                         distanceScrolled = 0; // Reset distance for the new loop
-                         // Increase difficulty more significantly on loop
-                         obstacleScrollSpeed = Math.min(MAX_OBSTACLE_SCROLL_SPEED, obstacleScrollSpeed + 0.5);
-                         obstacleSpawnRate = Math.max(MIN_OBSTACLE_SPAWN_RATE, obstacleSpawnRate - 15);
-                         ufoSpawnRate = Math.max(MIN_UFO_SPAWN_RATE, ufoSpawnRate - 20);
-                         console.log("Champion Loop! New Speed:", obstacleScrollSpeed.toFixed(2), "Obs Spawn:", obstacleSpawnRate, "UFO Spawn:", ufoSpawnRate);
+                     if (selectedCourse === 'beginner') { gameOver(true); return; }
+                     else { // Champion loop
+                         currentCheckpointIndex = 0; distanceScrolled = 0; currentStageIndex = 0; // Reset stage too
+                         obstacleScrollSpeed = Math.min(MAX_OBSTACLE_SCROLL_SPEED, obstacleScrollSpeed + 0.6); // Faster increase on loop
+                         obstacleSpawnRate = Math.max(MIN_OBSTACLE_SPAWN_RATE, obstacleSpawnRate - 20);
+                         ufoSpawnRate = Math.max(MIN_UFO_SPAWN_RATE, ufoSpawnRate - 30);
+                         console.log("Champion Loop! Speed:", obstacleScrollSpeed.toFixed(1), "Obs Spawn:", obstacleSpawnRate, "UFO Spawn:", ufoSpawnRate);
+                         // Force redraw of mountains with new stage colors
+                         backgroundMountainsNear = []; backgroundMountainsFar = [];
                      }
                 }
 
-                // Check for stage change
                 const currentCheckpointChar = ALPHABET[currentCheckpointIndex];
-                if (STAGE_CHECKPOINTS.includes(currentCheckpointChar)) {
+                const stageIndex = STAGE_CHECKPOINTS.indexOf(currentCheckpointChar);
+                if (stageIndex !== -1) {
                     console.log(`Reached Stage Checkpoint: ${currentCheckpointChar}`);
-                    // Increase difficulty slightly at stage checkpoints
-                    obstacleScrollSpeed = Math.min(MAX_OBSTACLE_SCROLL_SPEED, obstacleScrollSpeed + 0.2);
-                    obstacleSpawnRate = Math.max(MIN_OBSTACLE_SPAWN_RATE, obstacleSpawnRate - 5);
-                    ufoSpawnRate = Math.max(MIN_UFO_SPAWN_RATE, ufoSpawnRate - 8);
-                    // TODO: Change background color/theme?
+                    currentStageIndex = stageIndex + 1; // Update stage index (0-based to 1-based for logic)
+                    obstacleScrollSpeed = Math.min(MAX_OBSTACLE_SCROLL_SPEED, OBSTACLE_SCROLL_SPEED_START + currentStageIndex * 0.5); // Scale speed by stage
+                    obstacleSpawnRate = Math.max(MIN_OBSTACLE_SPAWN_RATE, OBSTACLE_SPAWN_RATE_START - currentStageIndex * 10);
+                    ufoSpawnRate = Math.max(MIN_UFO_SPAWN_RATE, UFO_SPAWN_RATE_START - currentStageIndex * 15);
+                     // Force redraw of mountains with new stage colors
+                     backgroundMountainsNear = []; backgroundMountainsFar = [];
                 }
-                updateUI(); // Update checkpoint display
+                updateUI();
             }
         }
 
-
-        function gameOver(courseComplete = false) {
-            if (isGameOver) return; // Prevent multiple calls
-            isGameOver = true;
-            gameHasStarted = false;
-            if (gameLoopId) cancelAnimationFrame(gameLoopId);
-            gameLoopId = null;
+        function gameOver(courseComplete = false) { /* (Logic remains mostly the same) */
+            if (isGameOver) return; isGameOver = true; gameHasStarted = false;
+            if (gameLoopId) cancelAnimationFrame(gameLoopId); gameLoopId = null;
 
             let newHighScore = false;
-            if (score > highScore) {
-                highScore = score;
-                localStorage.setItem('moonPatrolHighScore', highScore.toString());
-                newHighScore = true;
-            }
+            if (score > highScore) { highScore = score; localStorage.setItem('moonPatrolHighScore', highScore.toString()); newHighScore = true; }
 
-            // Prepare Stats
-            statsContainer.innerHTML = ''; // Clear previous stats
-             // Calculate stats more accurately
+            statsContainer.innerHTML = '';
              const rocksShot = obstacles.filter(o => o.type === 'rock' && !o.alive).length;
              const minesShot = obstacles.filter(o => o.type === 'mine' && !o.alive).length;
-             const ufosShot = ufos.filter(u => !u.alive).length; // Assuming UFOs are only destroyed by bullets for now
+             const ufosShot = ufos.filter(u => !u.alive).length;
+             const bombsShot = enemyBombs.filter(b => !b.alive).length; // Count shot bombs
 
+            const checkpointChar = ALPHABET[currentCheckpointIndex] || 'Z';
             const stats = [
-                `Course: ${selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1)}`,
-                `Checkpoint: ${ALPHABET[currentCheckpointIndex] || 'Z'}`, // Handle index out of bounds just in case
-                `Rocks Shot: ${rocksShot}`,
-                `Mines Shot: ${minesShot}`,
-                `UFOs Down: ${ufosShot}`,
-                `Final Score: ${score}`,
-                newHighScore ? `NEW HIGH SCORE!` : `High Score: ${highScore}`
+                `Course: ${selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1)}`, `Checkpoint: ${checkpointChar}`,
+                `Rocks Shot: ${rocksShot}`, `Mines Shot: ${minesShot}`,
+                `UFOs Down: ${ufosShot}`, `Bombs Down: ${bombsShot}`,
+                `Final Score: ${score}`, newHighScore ? `NEW HIGH SCORE!` : `High Score: ${highScore}`
             ];
             stats.forEach(statText => { const span = document.createElement('span'); span.textContent = statText; statsContainer.appendChild(span); });
 
-            // Show Message Box
             const title = courseComplete ? "COURSE COMPLETE!" : (newHighScore ? "GAME OVER - NEW HIGH SCORE!" : "GAME OVER");
-            const message = courseComplete ? `Final Score: ${score}` : `You reached Checkpoint ${ALPHABET[currentCheckpointIndex] || 'Z'}. Final Score: ${score}`;
+            const message = courseComplete ? `Final Score: ${score}` : `You reached Checkpoint ${checkpointChar}. Final Score: ${score}`;
             showMessage(title, message);
-            statsContainer.style.display = 'grid'; // Show stats
+            statsContainer.style.display = 'grid';
 
-            // Show Score Submission if score > 0
             if (score > 0) {
-                scoreSubmissionDiv.style.display = 'flex';
-                playerNameInput.value = 'ACE'; // Default name
-                submissionStatus.textContent = '';
-                submitScoreButton.disabled = false;
-                playerNameInput.focus();
-            } else {
-                scoreSubmissionDiv.style.display = 'none';
-            }
+                scoreSubmissionDiv.style.display = 'flex'; playerNameInput.value = 'ACE';
+                submissionStatus.textContent = ''; submitScoreButton.disabled = false; playerNameInput.focus();
+            } else { scoreSubmissionDiv.style.display = 'none'; }
 
-            // Show restart button in message box
             msgBoxRestartButton.style.display = 'inline-block';
-            // Disable in-game controls
             pauseButton.disabled = true;
+            mobileControlsDiv.style.display = 'none'; // Hide mobile controls on game over
         }
 
-
-        // --- Pause/Resume Logic ---
-        function pauseGame() {
-            if (isGameOver || !gameHasStarted) return;
-            isPaused = true;
-            pauseOverlay.style.display = 'flex';
-            pauseButton.textContent = 'Resume';
-            if (gameLoopId) cancelAnimationFrame(gameLoopId);
-            gameLoopId = null;
-        }
-        function resumeGame() {
-            if (isGameOver || !isPaused) return;
-            isPaused = false;
-            pauseOverlay.style.display = 'none';
-            pauseButton.textContent = 'Pause';
-            if (!gameLoopId) gameLoop();
-        }
+        // --- Pause/Resume Logic --- (Remains the same)
+        function pauseGame() { if (isGameOver || !gameHasStarted) return; isPaused = true; pauseOverlay.style.display = 'flex'; pauseButton.textContent = 'Resume'; if (gameLoopId) cancelAnimationFrame(gameLoopId); gameLoopId = null; }
+        function resumeGame() { if (isGameOver || !isPaused) return; isPaused = false; pauseOverlay.style.display = 'none'; pauseButton.textContent = 'Pause'; if (!gameLoopId) gameLoop(); }
         function togglePause() { if (isPaused) resumeGame(); else pauseGame(); }
 
-        // --- Message Display ---
-        function showMessage(title, textHTML) {
-             messageTitle.textContent = title;
-             messageText.innerHTML = textHTML;
-             // Hide elements not relevant to game over/stage clear
-             statsContainer.style.display = 'none';
-             scoreSubmissionDiv.style.display = 'none';
-             msgBoxRestartButton.style.display = 'none'; // Hide initially
-             messageBox.style.display = 'block';
-        }
+        // --- Message Display --- (Remains the same)
+        function showMessage(title, textHTML) { messageTitle.textContent = title; messageText.innerHTML = textHTML; statsContainer.style.display = 'none'; scoreSubmissionDiv.style.display = 'none'; msgBoxRestartButton.style.display = 'none'; messageBox.style.display = 'block'; }
         function hideMessage() { messageBox.style.display = 'none'; }
 
         // --- Drawing Functions ---
-        function drawBackground() {
-            // Solid dark blue base
-            ctx.fillStyle = '#00001a';
-            ctx.fillRect(0, 0, INTERNAL_WIDTH, INTERNAL_HEIGHT);
-
-            // Draw Stars
+        function drawBackground() { /* (Logic remains the same) */
+            ctx.fillStyle = '#00001a'; ctx.fillRect(0, 0, INTERNAL_WIDTH, INTERNAL_HEIGHT);
             backgroundStars.forEach(drawStar);
-
-            // Draw Far Mountains
             backgroundMountainsFar.forEach(drawMountain);
-
-            // Draw Near Mountains
             backgroundMountainsNear.forEach(drawMountain);
-
-            // Draw Ground
-            ctx.fillStyle = '#7a6d5f'; // Dusty brown/grey ground color
-            ctx.fillRect(0, GROUND_LEVEL_Y, INTERNAL_WIDTH, INTERNAL_HEIGHT - GROUND_LEVEL_Y);
-            // Add a subtle texture line near the top of the ground
-            ctx.strokeStyle = '#5c4f42';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(0, GROUND_LEVEL_Y + 2);
-            ctx.lineTo(INTERNAL_WIDTH, GROUND_LEVEL_Y + 2);
-            ctx.stroke();
+            ctx.fillStyle = '#7a6d5f'; ctx.fillRect(0, GROUND_LEVEL_Y, INTERNAL_WIDTH, INTERNAL_HEIGHT - GROUND_LEVEL_Y);
+            ctx.strokeStyle = '#5c4f42'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, GROUND_LEVEL_Y + 2); ctx.lineTo(INTERNAL_WIDTH, GROUND_LEVEL_Y + 2); ctx.stroke();
         }
-
         function drawGameObjects() {
-            // Draw obstacles first (behind buggy)
             obstacles.forEach(drawObstacle);
-
-            // Draw Bullets
             forwardBullets.forEach(drawBullet);
             upwardBullets.forEach(drawBullet);
-
-            // Draw UFOs
+            enemyBombs.forEach(drawEnemyBomb); // Draw enemy bombs
             ufos.forEach(drawUFO);
-
-            // Draw Buggy last (on top) - check if buggy exists
-            if (buggy) {
-                buggy.draw();
-            }
-
-            // Draw Particles
-            drawParticles();
+            if (buggy) buggy.draw();
+            drawParticles(); // Draw explosions
         }
-
 
         // --- Update Functions ---
         function updateGameObjects() {
-            // Ensure buggy exists before updating
-            if (buggy) {
-                buggy.update();
-            } else if (!isGameOver) {
-                // If buggy doesn't exist but game isn't over, likely an error state
-                console.error("Buggy object is missing during active gameplay!");
-                gameOver(); // Force game over if buggy is gone
-                return;
-            }
-
+            if (buggy) buggy.update();
+            else if (!isGameOver) { console.error("Buggy missing!"); gameOver(); return; }
 
             forwardBullets.forEach(updateBullet);
             upwardBullets.forEach(updateBullet);
             obstacles.forEach(updateObstacle);
             ufos.forEach(updateUFO);
-            updateParticles(); // Update explosion particles
+            enemyBombs.forEach(updateEnemyBomb); // Update enemy bombs
+            updateParticles();
 
-            // Filter out dead objects
             forwardBullets = forwardBullets.filter(b => b.alive);
             upwardBullets = upwardBullets.filter(b => b.alive);
             obstacles = obstacles.filter(o => o.alive);
             ufos = ufos.filter(u => u.alive);
+            enemyBombs = enemyBombs.filter(b => b.alive); // Filter dead bombs
 
-            // Spawn new obstacles
+            // Spawn obstacles
             obstacleSpawnTimer--;
             if (obstacleSpawnTimer <= 0) {
                 obstacles.push(createObstacle());
-                obstacleSpawnTimer = obstacleSpawnRate + random(-20, 20); // Add some variance
+                obstacleSpawnTimer = obstacleSpawnRate + random(-obstacleSpawnRate * 0.2, obstacleSpawnRate * 0.2); // More variance
             }
-
-            // Spawn new UFOs
+            // Spawn UFOs
             ufoSpawnTimer--;
             if (ufoSpawnTimer <= 0) {
                 ufos.push(createUFO());
-                ufoSpawnTimer = ufoSpawnRate + random(-30, 30); // Add some variance
+                ufoSpawnTimer = ufoSpawnRate + random(-ufoSpawnRate * 0.2, ufoSpawnRate * 0.2);
             }
 
-            // Update background elements
             manageBackgroundElements();
-
-            // Handle collisions
             handleCollisions();
-
-            // Update checkpoints and difficulty
             updateCheckpointsAndDifficulty();
         }
-
-        function updateUI() {
-            scoreDisplay.textContent = `SCORE: ${score}`;
-            highScoreDisplay.textContent = `HI: ${highScore}`;
-            livesDisplay.textContent = `LIVES: ${lives}`;
-            // Ensure checkpoint index is valid before accessing ALPHABET
+        function updateUI() { /* (Logic remains the same) */
+            scoreDisplay.textContent = `SCORE: ${score}`; highScoreDisplay.textContent = `HI: ${highScore}`; livesDisplay.textContent = `LIVES: ${lives}`;
             const checkpointChar = currentCheckpointIndex < ALPHABET.length ? ALPHABET[currentCheckpointIndex] : 'Z';
             checkpointDisplay.textContent = `CHK: ${checkpointChar}`;
         }
 
-
-        // --- Game Loop ---
+        // --- Game Loop --- (Remains the same)
         function gameLoop() {
-            if (isPaused || isGameOver) {
-                gameLoopId = null;
-                return;
-            }
-
-            // Clear canvas
+            if (isPaused || isGameOver) { gameLoopId = null; return; }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw background first
             drawBackground();
-
-            // Update and Draw Game Objects
             updateGameObjects();
             drawGameObjects();
-
-            // Update UI Display
             updateUI();
-
-            // Request next frame
             gameLoopId = requestAnimationFrame(gameLoop);
         }
 
-        // --- Leaderboard Functions (Copied from Missile Command, adapted key) ---
-        async function fetchAndDisplayLeaderboard() {
-            console.log("Fetching leaderboard...");
+        // --- Leaderboard Functions --- (Remain the same)
+        async function fetchAndDisplayLeaderboard() { /* ... */
+            console.log("Fetching leaderboard..."); // DEBUG
             leaderboardLoading.textContent = "Loading...";
             leaderboardList.innerHTML = '';
             leaderboardList.appendChild(leaderboardLoading);
-            leaderboardContainer.style.display = 'block';
+            // DEBUG: Check if container exists before styling
+            if (leaderboardContainer) {
+                 leaderboardContainer.style.display = 'block';
+            } else {
+                console.error("Leaderboard container not found!");
+            }
+
 
             try {
                 const response = await fetch('/scores'); // Uses the Cloudflare Function route
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const scores = await response.json();
-                console.log("Leaderboard data received:", scores);
-                leaderboardLoading.style.display = 'none';
+                console.log("Leaderboard data received:", scores); // DEBUG
+                if (leaderboardLoading) leaderboardLoading.style.display = 'none'; // DEBUG check
 
                 if (scores && scores.length > 0) {
                     scores.forEach((entry, index) => {
@@ -1448,108 +1402,76 @@
                         const nameSpan = document.createElement('span'); nameSpan.className = 'name'; nameSpan.textContent = entry.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                         const scoreSpan = document.createElement('span'); scoreSpan.className = 'score'; scoreSpan.textContent = `${entry.score}`; // No $ sign for points
                         li.appendChild(rankSpan); li.appendChild(nameSpan); li.appendChild(scoreSpan);
-                        leaderboardList.appendChild(li);
+                        if (leaderboardList) leaderboardList.appendChild(li); // DEBUG check
                     });
                 } else {
-                    leaderboardLoading.textContent = "No scores yet!";
-                    leaderboardLoading.style.display = 'block';
+                    if (leaderboardLoading) { // DEBUG check
+                         leaderboardLoading.textContent = "No scores yet!";
+                         leaderboardLoading.style.display = 'block';
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching leaderboard:', error);
-                leaderboardLoading.textContent = "Error loading scores.";
-                leaderboardLoading.style.display = 'block';
+                 if (leaderboardLoading) { // DEBUG check
+                     leaderboardLoading.textContent = "Error loading scores.";
+                     leaderboardLoading.style.display = 'block';
+                 }
             }
-        }
+         }
+        async function submitHighScore() { /* ... */
+             const name = playerNameInput.value.trim().toUpperCase();
+             const finalScore = score;
 
-        async function submitHighScore() {
-            const name = playerNameInput.value.trim().toUpperCase();
-            const finalScore = score; // Use the final score from the game state
+             if (!name || name.length === 0 || name.length > 18) { submissionStatus.textContent = "Enter 1-18 characters."; submissionStatus.style.color = "#ff0000"; return; }
+             if (finalScore <= 0) { submissionStatus.textContent = "No score to submit."; submissionStatus.style.color = "#ffff00"; submitScoreButton.disabled = true; return; }
 
-            if (!name || name.length === 0 || name.length > 18) {
-                submissionStatus.textContent = "Enter 1-18 characters.";
-                submissionStatus.style.color = "#ff0000"; // Red error
-                return;
-            }
-             if (finalScore <= 0) {
-                 submissionStatus.textContent = "No score to submit.";
-                 submissionStatus.style.color = "#ffff00"; // Yellow info
-                 submitScoreButton.disabled = true;
-                 return;
-            }
+             console.log(`Submitting score: Name=${name}, Score=${finalScore}`);
+             submitScoreButton.disabled = true; submissionStatus.textContent = "Submitting..."; submissionStatus.style.color = "#00ff00";
 
-            console.log(`Submitting score: Name=${name}, Score=${finalScore}`);
-            submitScoreButton.disabled = true;
-            submissionStatus.textContent = "Submitting...";
-            submissionStatus.style.color = "#00ff00"; // Green status
-
-            try {
-                const response = await fetch('/scores', { // POST to the same Function route
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, score: finalScore }), // Send name and score
-                });
-                if (!response.ok) {
-                     const errorText = await response.text();
-                     throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
-                }
-                const result = await response.json();
-                console.log("Submission response:", result);
-                submissionStatus.textContent = "Score Submitted!";
-                submissionStatus.style.color = "#00ff00";
-                // Optionally refresh leaderboard here or wait for restart
-                // fetchAndDisplayLeaderboard();
-            } catch (error) {
-                console.error('Error submitting score:', error);
-                submissionStatus.textContent = "Submission Failed.";
-                submissionStatus.style.color = "#ff0000";
-                submitScoreButton.disabled = false; // Re-enable on failure
-            }
-        }
+             try {
+                 const response = await fetch('/scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name, score: finalScore }), });
+                 if (!response.ok) { const errorText = await response.text(); throw new Error(`HTTP error! status: ${response.status} - ${errorText}`); }
+                 const result = await response.json(); console.log("Submission response:", result);
+                 submissionStatus.textContent = "Score Submitted!"; submissionStatus.style.color = "#00ff00";
+             } catch (error) {
+                 console.error('Error submitting score:', error); submissionStatus.textContent = "Submission Failed.";
+                 submissionStatus.style.color = "#ff0000"; submitScoreButton.disabled = false;
+             }
+         }
 
         // --- Event Listeners ---
-
-        // Course Selection
         document.querySelectorAll('.course-button').forEach(button => {
             button.addEventListener('click', (event) => {
-                selectedCourse = event.target.getAttribute('data-course');
-                courseSelected = true;
-                console.log("Course selected:", selectedCourse);
+                selectedCourse = event.target.getAttribute('data-course'); courseSelected = true;
+                console.log("Course selected:", selectedCourse); // DEBUG
                 document.querySelectorAll('.course-button').forEach(btn => btn.classList.remove('selected'));
                 event.target.classList.add('selected');
-                actualStartButton.style.display = 'inline-block';
-                actualStartButton.disabled = false;
+                // DEBUG: Check if button exists before styling
+                if (actualStartButton) {
+                    actualStartButton.style.display = 'inline-block';
+                    actualStartButton.disabled = false;
+                    console.log("Start button should be visible now."); // DEBUG
+                } else {
+                    console.error("Actual Start Button not found!");
+                }
             });
         });
-
-        // Start Game Button
         actualStartButton.addEventListener('click', () => { if (courseSelected) startGame(); });
 
-        // Restart Buttons (both in-game and message box)
-        function handleRestart() {
-             if (gameLoopId) cancelAnimationFrame(gameLoopId);
-             gameLoopId = null;
-             isGameOver = true;
-             gameHasStarted = false;
-             isPaused = false;
-             courseSelected = false;
-
-             // Reset state variables
-             score = 0; lives = STARTING_LIVES; currentCheckpointIndex = 0; distanceScrolled = 0;
+        function handleRestart() { /* (Logic remains the same) */
+             if (gameLoopId) cancelAnimationFrame(gameLoopId); gameLoopId = null;
+             isGameOver = true; gameHasStarted = false; isPaused = false; courseSelected = false;
+             score = 0; lives = STARTING_LIVES; currentCheckpointIndex = 0; distanceScrolled = 0; currentStageIndex = 0;
              buggy = null; // Clear buggy object
 
-             // Reset UI to initial state
-             startMenuContainer.style.display = 'flex';
-             canvasContainer.style.display = 'none'; canvas.style.display = 'none';
+             startMenuContainer.style.display = 'flex'; canvasContainer.style.display = 'none'; canvas.style.display = 'none';
              uiContainer.style.display = 'none'; controlsContainer.style.display = 'none';
-             pauseOverlay.style.display = 'none'; hideMessage();
+             pauseOverlay.style.display = 'none'; hideMessage(); mobileControlsDiv.style.display = 'none';
              actualStartButton.style.display = 'none'; actualStartButton.disabled = true;
-             restartButton.style.display = 'none';
-             pauseButton.style.display = 'none';
-             msgBoxRestartButton.style.display = 'none';
-             scoreSubmissionDiv.style.display = 'none';
+             restartButton.style.display = 'none'; pauseButton.style.display = 'none';
+             msgBoxRestartButton.style.display = 'none'; scoreSubmissionDiv.style.display = 'none';
              document.querySelectorAll('.course-button').forEach(btn => btn.classList.remove('selected'));
 
-             // Update high score and fetch leaderboard for start menu
              highScore = parseInt(localStorage.getItem('moonPatrolHighScore') || '0');
              startHighScoreDisplay.textContent = `High Score: ${highScore}`;
              fetchAndDisplayLeaderboard();
@@ -1557,70 +1479,49 @@
         restartButton.addEventListener('click', handleRestart);
         msgBoxRestartButton.addEventListener('click', handleRestart);
 
-
-        // Pause Button
         pauseButton.addEventListener('click', togglePause);
 
         // Keyboard Input
         window.addEventListener('keydown', (event) => {
-            // Allow pause toggle even if game not fully started but controls are visible
-            if (event.code === 'KeyP' && controlsContainer.style.display === 'flex') {
-                 event.preventDefault();
-                 togglePause();
-                 return; // Don't process other keys if pausing
-            }
-
-            if (!gameHasStarted || isPaused || isGameOver || !buggy) return; // Ensure buggy exists
-
+            if (event.code === 'KeyP' && gameHasStarted && !isGameOver) { event.preventDefault(); togglePause(); return; } // Pause allowed if game started
+            if (!gameHasStarted || isPaused || isGameOver || !buggy) return;
             switch (event.code) {
-                case 'Space':
-                    event.preventDefault(); // Prevent page scroll
-                    buggy.jump();
-                    break;
-                case 'KeyX': // Shoot button
-                    event.preventDefault();
-                    buggy.shoot();
-                    break;
+                case 'Space': event.preventDefault(); buggy.jump(); break;
+                case 'KeyX': event.preventDefault(); buggy.shoot(); break;
             }
         });
 
-         // Score Submission Listeners
-         submitScoreButton.addEventListener('click', submitHighScore);
-         playerNameInput.addEventListener('keypress', (event) => {
-             if (event.key === 'Enter') {
-                 event.preventDefault();
-                 submitHighScore();
-             }
-         });
+        // Mobile Input
+        function handleMobileJump(event) { event.preventDefault(); if (gameHasStarted && !isPaused && !isGameOver && buggy) buggy.jump(); }
+        function handleMobileShoot(event) { event.preventDefault(); if (gameHasStarted && !isPaused && !isGameOver && buggy) buggy.shoot(); }
+        mobileJumpButton.addEventListener('touchstart', handleMobileJump, { passive: false });
+        mobileShootButton.addEventListener('touchstart', handleMobileShoot, { passive: false });
+
+        // Score Submission Listeners
+        submitScoreButton.addEventListener('click', submitHighScore);
+        playerNameInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); submitHighScore(); } });
 
         // --- Initial Setup ---
         window.onload = () => {
-            // Set canvas dimensions based on constants
-            canvas.width = INTERNAL_WIDTH;
-            canvas.height = INTERNAL_HEIGHT;
-
-            // Load high score
+            console.log("Window loaded."); // DEBUG
+            canvas.width = INTERNAL_WIDTH; canvas.height = INTERNAL_HEIGHT;
             highScore = parseInt(localStorage.getItem('moonPatrolHighScore') || '0');
             startHighScoreDisplay.textContent = `High Score: ${highScore}`;
-            // Also update in-game UI high score display initially
             highScoreDisplay.textContent = `HI: ${highScore}`;
 
-            // Set initial UI visibility (Start Menu shown)
-            startMenuContainer.style.display = 'flex';
-            canvasContainer.style.display = 'none'; canvas.style.display = 'none';
+            startMenuContainer.style.display = 'flex'; canvasContainer.style.display = 'none'; canvas.style.display = 'none';
             uiContainer.style.display = 'none'; controlsContainer.style.display = 'none';
             messageBox.style.display = 'none'; pauseOverlay.style.display = 'none';
-            actualStartButton.style.display = 'none';
-            restartButton.style.display = 'none';
-            pauseButton.style.display = 'none';
-            msgBoxRestartButton.style.display = 'none';
-            scoreSubmissionDiv.style.display = 'none';
+            actualStartButton.style.display = 'none'; restartButton.style.display = 'none';
+            pauseButton.style.display = 'none'; msgBoxRestartButton.style.display = 'none';
+            scoreSubmissionDiv.style.display = 'none'; mobileControlsDiv.style.display = 'none'; // Ensure mobile controls hidden initially
 
-            // Fetch leaderboard for the start menu
-            fetchAndDisplayLeaderboard();
-
-             // Optional: Service worker registration (if you have one)
-             // if ('serviceWorker' in navigator) { ... }
+             // DEBUG: Check if elements exist before calling fetch
+             if (leaderboardContainer && leaderboardList && leaderboardLoading) {
+                 fetchAndDisplayLeaderboard();
+             } else {
+                 console.error("Leaderboard elements not found on load!");
+             }
         };
 
     </script>
