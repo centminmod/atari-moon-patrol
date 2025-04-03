@@ -562,7 +562,7 @@
         const INTERNAL_WIDTH = 800;
         const INTERNAL_HEIGHT = 450;
         const GROUND_LEVEL_Y = INTERNAL_HEIGHT * 0.85;
-        const BUGGY_WIDTH = 35; // Adjusted: Was 50
+        const BUGGY_WIDTH = 40; // Adjusted: Was 50
         const BUGGY_HEIGHT = 25;
         const BUGGY_START_X = INTERNAL_WIDTH * 0.15;
         const GRAVITY = 0.5;
@@ -575,9 +575,10 @@
         const MAX_OBSTACLE_SCROLL_SPEED = 7;
         const OBSTACLE_SPAWN_RATE_START = 120;
         const MIN_OBSTACLE_SPAWN_RATE = 50;
+        const MIN_OBSTACLE_GAP = 50; // Minimum pixels between end of one obstacle and start of next
         const CRATER_WIDTH = 40;
         const CRATER_HEIGHT = 15;
-        const ROCK_WIDTH = 15; // Adjusted: Was 25
+        const ROCK_WIDTH = 18; // Adjusted: Was 25
         const ROCK_HEIGHT = 30;
         const MINE_WIDTH = 20;
         const MINE_HEIGHT = 10;
@@ -609,6 +610,7 @@
         let obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START;
         let obstacleSpawnRate = OBSTACLE_SPAWN_RATE_START;
         let obstacleSpawnTimer = 0;
+        let lastObstacleEndX = -Infinity; // Track right edge of last spawned obstacle
         let ufoSpawnRate = UFO_SPAWN_RATE_START;
         let ufoSpawnTimer = 0;
         let gameLoopId = null;
@@ -833,22 +835,21 @@
         function createObstacle() {
             const typeRoll = Math.random();
             let obstacle = {
-                x: INTERNAL_WIDTH + random(50, 200), y: 0, w: 0, h: 0, type: '', alive: true, color: '#ff0000', scored: false
+                // Start further off-screen to allow for gap calculation
+                x: INTERNAL_WIDTH + random(100, 250),
+                y: 0, w: 0, h: 0, type: '', alive: true, color: '#ff0000', scored: false
             };
             if (typeRoll < 0.4) { // Crater
                 obstacle.type = 'crater'; obstacle.w = CRATER_WIDTH + random(-5, 5); obstacle.h = CRATER_HEIGHT + random(-3, 3);
                 obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#5a3d2b';
             } else if (typeRoll < 0.75) { // Rock
                 obstacle.type = 'rock';
-                // Use new ROCK_WIDTH constant and adjusted random factor
-                obstacle.w = ROCK_WIDTH + random(-3, 5); // Adjusted: Was random(-5, 10)
+                obstacle.w = ROCK_WIDTH + random(-3, 5); // Use adjusted constant/random
                 obstacle.h = ROCK_HEIGHT + random(-10, 15);
-                obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#999'; // Lighter grey
-                 // Add jagged points for drawing
-                 obstacle.points = [];
-                 let currentX = 0;
+                obstacle.y = GROUND_LEVEL_Y - obstacle.h; obstacle.color = '#999';
+                 obstacle.points = []; let currentX = 0;
                  while (currentX < obstacle.w) {
-                     obstacle.points.push({x: currentX, y: random(0, obstacle.h * 0.4)}); // Random top points
+                     obstacle.points.push({x: currentX, y: random(0, obstacle.h * 0.4)});
                      currentX += random(obstacle.w * 0.1, obstacle.w * 0.3);
                  }
                  obstacle.points.push({x: obstacle.w, y: random(0, obstacle.h * 0.4)});
@@ -858,10 +859,16 @@
             }
             return obstacle;
         }
-        function updateObstacle(obstacle) { /* (Logic remains the same) */
+        function updateObstacle(obstacle) {
              obstacle.x -= obstacleScrollSpeed;
-             if (obstacle.x + obstacle.w < 0) obstacle.alive = false;
-             if (buggy && obstacle.type === 'crater' && !obstacle.scored && buggy.isJumping) { // Check if buggy exists
+             if (obstacle.x + obstacle.w < -20) { // Remove slightly later
+                 obstacle.alive = false;
+                 // If this was the 'last' obstacle, reset lastObstacleEndX so a new one can spawn closer
+                 if (lastObstacleEndX === obstacle.x + obstacle.w) {
+                     lastObstacleEndX = -Infinity;
+                 }
+             }
+             if (buggy && obstacle.type === 'crater' && !obstacle.scored && buggy.isJumping) {
                  if (buggy.x + buggy.w > obstacle.x && buggy.x < obstacle.x + obstacle.w) {
                       if (buggy.y + buggy.h < GROUND_LEVEL_Y - 5) {
                          score += POINTS_CRATER_JUMP; obstacle.scored = true;
@@ -986,6 +993,10 @@
                      w: CRATER_WIDTH, h: CRATER_HEIGHT, type: 'crater', alive: true,
                      color: '#5a3d2b', scored: false
                  });
+                 // Update lastObstacleEndX if this new crater is the rightmost
+                 if (bomb.x + CRATER_WIDTH / 2 > lastObstacleEndX) {
+                    lastObstacleEndX = bomb.x + CRATER_WIDTH / 2;
+                 }
             }
             if (bomb.x < -bomb.w || bomb.x > INTERNAL_WIDTH + bomb.w) bomb.alive = false; // Off screen horizontal
         }
@@ -1188,6 +1199,7 @@
              obstacleSpawnRate = OBSTACLE_SPAWN_RATE_START;
              ufoSpawnRate = UFO_SPAWN_RATE_START;
              obstacleSpawnTimer = obstacleSpawnRate; ufoSpawnTimer = ufoSpawnRate;
+             lastObstacleEndX = -Infinity; // Reset last obstacle position
              isGameOver = false; isPaused = false; gameHasStarted = true;
 
              forwardBullets = []; upwardBullets = []; obstacles = []; ufos = []; enemyBombs = []; particles = [];
@@ -1339,13 +1351,22 @@
             ufos = ufos.filter(u => u.alive);
             enemyBombs = enemyBombs.filter(b => b.alive); // Filter dead bombs
 
-            // Spawn obstacles
+            // Spawn obstacles with minimum gap logic
             obstacleSpawnTimer--;
             if (obstacleSpawnTimer <= 0) {
-                obstacles.push(createObstacle());
-                obstacleSpawnTimer = obstacleSpawnRate + random(-obstacleSpawnRate * 0.2, obstacleSpawnRate * 0.2); // More variance
+                // Check distance from last obstacle's END position
+                if (INTERNAL_WIDTH > lastObstacleEndX + MIN_OBSTACLE_GAP) {
+                    const newObstacle = createObstacle();
+                    // Adjust spawn position slightly if needed, though starting off-screen is usually fine
+                    obstacles.push(newObstacle);
+                    // Update the position of the right edge of the latest obstacle
+                    lastObstacleEndX = newObstacle.x + newObstacle.w;
+                }
+                 // Always reset timer, even if we didn't spawn, to prevent rapid spawn checks
+                obstacleSpawnTimer = obstacleSpawnRate + random(-obstacleSpawnRate * 0.2, obstacleSpawnRate * 0.2);
             }
-            // Spawn UFOs
+
+            // Spawn UFOs (no spacing logic needed for these)
             ufoSpawnTimer--;
             if (ufoSpawnTimer <= 0) {
                 ufos.push(createUFO());
@@ -1462,6 +1483,7 @@
              isGameOver = true; gameHasStarted = false; isPaused = false; courseSelected = false;
              score = 0; lives = STARTING_LIVES; currentCheckpointIndex = 0; distanceScrolled = 0; currentStageIndex = 0;
              buggy = null; // Clear buggy object
+             lastObstacleEndX = -Infinity; // Reset obstacle spacing tracker
 
              startMenuContainer.style.display = 'flex'; canvasContainer.style.display = 'none'; canvas.style.display = 'none';
              uiContainer.style.display = 'none'; controlsContainer.style.display = 'none';
