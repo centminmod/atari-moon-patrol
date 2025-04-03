@@ -1363,11 +1363,11 @@
             obstacleSpawnTimer--;
             if (obstacleSpawnTimer <= 0) {
                 // Check distance from last obstacle's END position
-                if (INTERNAL_WIDTH > lastObstacleEndX + MIN_OBSTACLE_GAP) {
+                // Corrected Logic: Check if the *right edge of the screen* is clear of the last obstacle + gap
+                if (INTERNAL_WIDTH >= lastObstacleEndX + MIN_OBSTACLE_GAP) {
                     const newObstacle = createObstacle();
-                    // Adjust spawn position slightly if needed, though starting off-screen is usually fine
                     obstacles.push(newObstacle);
-                    // Update the position of the right edge of the latest obstacle
+                    // Update the position of the right edge of the latest obstacle (where it initially spawns)
                     lastObstacleEndX = newObstacle.x + newObstacle.w;
                 }
                  // Always reset timer, even if we didn't spawn, to prevent rapid spawn checks
