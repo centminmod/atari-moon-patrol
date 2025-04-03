@@ -243,17 +243,50 @@
              padding: 10px 0;
              border-top: 1px solid #005500; /* Dark green */
              font-size: clamp(10px, 2.5vw, 12px);
-             display: flex;
-             justify-content: center;
-             align-items: center;
-             flex-wrap: wrap;
-             gap: 10px;
+             display: flex; /* Use flexbox for layout */
+             justify-content: space-around; /* Space out the groups */
+             align-items: center; /* Center items vertically */
+             flex-wrap: wrap; /* Allow wrapping on smaller screens */
+             gap: 15px; /* Gap between flex items */
              color: #00ff00; /* Green footer text */
+             text-align: center; /* Center text within groups */
         }
-        footer a { color: #00ff00; text-decoration: none; transition: color 0.3s, text-shadow 0.3s; display: inline-block; vertical-align: middle; line-height: 1; margin: 0 5px; }
-        footer a:hover, footer a:focus { color: #ffff00; text-shadow: 0 0 5px #ffff00; outline: none; }
-        footer a img { vertical-align: middle; margin: 0 3px; height: 20px; width: auto; }
-        footer .link-group { }
+        /* Style for the link groups */
+        footer .link-group {
+            display: flex; /* Use flex for items within the group */
+            flex-direction: column; /* Stack items vertically in social */
+            align-items: center; /* Center items horizontally */
+            gap: 5px; /* Gap between items in the group */
+        }
+        footer .link-group.github-links {
+            flex-direction: row; /* GitHub links in a row */
+            gap: 8px; /* Adjust gap for horizontal layout */
+        }
+        /* Style for links */
+        footer a {
+            color: #00ff00;
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+            display: inline-block; /* Make links behave like blocks for alignment */
+            vertical-align: middle;
+            line-height: 1;
+        }
+        footer a:hover, footer a:focus {
+             color: #ffff00;
+             text-shadow: 0 0 5px #ffff00;
+             outline: none;
+        }
+        /* Style for images within links (GitHub badges) */
+        footer a img {
+            vertical-align: middle; /* Align badges nicely */
+            height: 20px; /* Consistent badge height */
+            width: auto;
+        }
+        /* Ensure Controls span is block for newline */
+        footer .social-links span {
+            display: block; /* Make span take full width */
+            margin-bottom: 5px; /* Add space below controls text */
+        }
 
         /* --- Leaderboard Styles (Copied from Missile Command) --- */
         #leaderboardContainer {
@@ -312,7 +345,9 @@
             #courseSelection { gap: 8px; padding: 10px; }
             button { padding: 6px 12px; }
             #messageBox { padding: 15px; max-width: 95%; }
-            footer { margin-top: 15px; gap: 8px; }
+            footer { margin-top: 15px; gap: 10px; /* Adjust gap */ } /* Footer adjustments */
+            footer .link-group { flex-basis: 100%; } /* Stack groups on medium screens */
+            footer .link-group.github-links { justify-content: center; } /* Center GitHub badges */
         }
 
         @media (max-width: 480px) {
@@ -331,8 +366,9 @@
             #statsContainer { font-size: 9px; grid-template-columns: 1fr; gap: 3px 10px; }
             .messageBoxButtons { gap: 8px; }
             #pauseOverlay { font-size: 24px; }
-            footer { margin-top: 10px; font-size: 9px; padding: 8px 0; display: block; text-align: center; }
-            footer .link-group { display: block; margin-bottom: 5px; text-align: center; }
+            footer { margin-top: 10px; font-size: 9px; padding: 8px 0; display: block; text-align: center; } /* Revert to block for stacking */
+            footer .link-group { margin-bottom: 10px; } /* Add space between stacked groups */
+            footer .link-group.github-links a img { height: 18px; } /* Slightly smaller badges */
              /* Leaderboard specific adjustments */
              #leaderboardContainer { max-width: 95%; }
              #leaderboardList .rank { flex-basis: 15%; }
@@ -350,8 +386,7 @@
             <button class="course-button" data-course="beginner">Beginner Course</button>
             <button class="course-button" data-course="champion">Champion Course</button>
         </div>
-        <div id="startHighScore">High Score: $0</div>
-        <div id="leaderboardContainer">
+        <div id="startHighScore">High Score: 0</div> <div id="leaderboardContainer">
             <h3>Top Scores</h3>
             <ol id="leaderboardList">
                 <li id="leaderboardLoading">Loading...</li>
@@ -368,7 +403,8 @@
         </div>
 
     <div id="canvasContainer">
-        <canvas id="gameCanvas" width="800" height="450"></canvas> <div id="pauseOverlay">PAUSED</div>
+        <canvas id="gameCanvas" width="800" height="450"></canvas>
+        <div id="pauseOverlay">PAUSED</div>
     </div>
 
     <div id="controlsContainer">
@@ -395,9 +431,24 @@
     <footer>
         <div class="link-group social-links">
             <span>Controls: [SPACE] = Jump | [X] = Shoot</span>
+            <div> <a href="https://x.com/George_SLiu" target="_blank" rel="noopener noreferrer">Twitter</a>
+                <a href="https://www.threads.net/@george_sl_liu" target="_blank" rel="noopener noreferrer">Threads</a>
+                <a href="https://bsky.app/profile/georgesl.bsky.social" target="_blank" rel="noopener noreferrer">BlueSky</a>
+            </div>
         </div>
         <div class="link-group github-links">
-             <a target="_blank" href="https://jam.pieter.com" style="font-family: 'system-ui', sans-serif; position: fixed; bottom: -1px; right: -1px; padding: 7px; font-size: 14px; font-weight: bold; background: #fff; color: #000; text-decoration: none; z-index: 10; border-top-left-radius: 12px; z-index: 10000;">🕹️ Vibe Jam 2025</a>
+            <a href="https://github.com/sponsors/centminmod" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.shields.io/github/sponsors/centminmod" alt="GitHub Sponsors" loading="lazy">
+            </a>
+            <a href="https://github.com/centminmod/atari-moon-patrol/stargazers" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.shields.io/github/stars/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub stars" loading="lazy">
+            </a>
+            <a href="https://github.com/centminmod/atari-moon-patrol/network" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.shields.io/github/forks/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub forks" loading="lazy">
+            </a>
+            <a href="https://github.com/centminmod/atari-moon-patrol/issues" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.shields.io/github/issues/centminmod/atari-moon-patrol.svg?style=flat-square" alt="Centmin Mod GitHub issues" loading="lazy">
+            </a>
         </div>
     </footer>
 
@@ -512,6 +563,18 @@
         function distance(x1, y1, x2, y2) { const dx = x1 - x2; const dy = y1 - y2; return Math.sqrt(dx * dx + dy * dy); }
         function random(min, max) { return Math.random() * (max - min) + min; }
         function checkCollision(rect1, rect2) {
+            // Check for null or undefined inputs
+            if (!rect1 || !rect2) {
+                // console.warn("Collision check with invalid rect:", rect1, rect2);
+                return false;
+            }
+            // Ensure all properties exist
+            if (typeof rect1.x !== 'number' || typeof rect1.y !== 'number' || typeof rect1.w !== 'number' || typeof rect1.h !== 'number' ||
+                typeof rect2.x !== 'number' || typeof rect2.y !== 'number' || typeof rect2.w !== 'number' || typeof rect2.h !== 'number') {
+                // console.warn("Collision check with rect missing properties:", rect1, rect2);
+                return false;
+            }
+
             return rect1.x < rect2.x + rect2.w &&
                    rect1.x + rect1.w > rect2.x &&
                    rect1.y < rect2.y + rect2.h &&
@@ -530,11 +593,17 @@
                 velocityY: 0,
                 isJumping: false,
                 onGround: true,
+                invulnerableTimer: 0, // Timer for flashing/invulnerability after hit
                 colorBody: '#ffff00', // Yellow body
                 colorWheels: '#888888', // Grey wheels
                 colorWindow: '#00eeee', // Cyan window
 
                 draw() {
+                    // Flash if invulnerable
+                    if (this.invulnerableTimer > 0 && Math.floor(this.invulnerableTimer / 5) % 2 === 0) {
+                        return; // Skip drawing every few frames to create flash effect
+                    }
+
                     // Wheels (draw first)
                     const wheelRadius = this.h * 0.4;
                     const wheelY = this.y + this.h - wheelRadius;
@@ -575,6 +644,11 @@
                 },
 
                 update() {
+                    // Decrease invulnerability timer
+                    if (this.invulnerableTimer > 0) {
+                        this.invulnerableTimer--;
+                    }
+
                     // Apply gravity if in the air
                     if (this.isJumping || !this.onGround) {
                         this.velocityY += GRAVITY;
@@ -624,9 +698,56 @@
                         alive: true,
                         color: '#00ff00' // Green upward bullet
                     });
+                },
+                hit() {
+                    if (this.invulnerableTimer <= 0) {
+                        loseLife();
+                        this.invulnerableTimer = 90; // 1.5 seconds of flashing at 60fps
+                    }
                 }
             };
         }
+
+        // --- Explosion Particle System ---
+        let particles = [];
+        function createExplosion(x, y, color = '#FFA500', count = 15, size = 3, speed = 3, duration = 30) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const currentSpeed = Math.random() * speed + 1;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * currentSpeed,
+                    vy: Math.sin(angle) * currentSpeed,
+                    size: Math.random() * size + 1,
+                    color: color,
+                    life: duration, // Frames to live
+                    maxLife: duration
+                });
+            }
+        }
+
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+                if (p.life <= 0) {
+                    particles.splice(i, 1); // Remove dead particle
+                }
+            }
+        }
+
+        function drawParticles() {
+            particles.forEach(p => {
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life / p.maxLife; // Fade out
+                ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+            });
+            ctx.globalAlpha = 1.0; // Reset alpha
+        }
+
 
         // Bullet Object (Generic Update/Draw)
         function updateBullet(bullet) {
@@ -804,7 +925,8 @@
                 x: random(0, INTERNAL_WIDTH),
                 y: random(0, GROUND_LEVEL_Y * 0.9), // Keep stars above ground/mountains
                 radius: random(0.5, 1.5),
-                opacity: random(0.3, 0.9)
+                opacity: random(0.3, 0.9),
+                alive: true // Add alive flag for filtering
             };
         }
         function createMountainSegment(isNear) {
@@ -826,8 +948,14 @@
              };
         }
         function updateBackgroundElement(element) {
+             // Ensure element and speed are defined
+             if (!element || typeof element.speed !== 'number') {
+                 // console.warn("Updating invalid background element:", element);
+                 if(element) element.alive = false; // Mark invalid elements as not alive
+                 return;
+             }
              element.x -= element.speed;
-             if (element.x + (element.w || element.radius * 2) < 0) {
+             if (element.x + (element.w || element.radius * 2 || 0) < 0) { // Added fallback for width/radius
                  element.alive = false;
              }
              // Update speed if obstacle speed changes
@@ -852,13 +980,13 @@
              ctx.fill();
          }
          function manageBackgroundElements() {
-             // Remove off-screen elements
+             // Remove off-screen elements using the alive flag
              backgroundStars = backgroundStars.filter(s => s.alive);
              backgroundMountainsNear = backgroundMountainsNear.filter(m => m.alive);
              backgroundMountainsFar = backgroundMountainsFar.filter(m => m.alive);
 
              // Add new stars occasionally
-             if (Math.random() < 0.5) {
+             if (Math.random() < 0.5 && backgroundStars.length < 150) { // Limit star count
                  const newStar = createStar();
                  newStar.x = INTERNAL_WIDTH + 5; // Start just off screen
                  backgroundStars.push(newStar);
@@ -883,25 +1011,27 @@
 
         // --- Collision Handling ---
         function handleCollisions() {
+            // Ensure buggy exists before checking collisions
+            if (!buggy) return;
+
             // 1. Buggy vs Obstacles
             obstacles.forEach(obstacle => {
                 if (!obstacle.alive) return;
 
-                // Create bounding boxes, adjust crater box to be on ground level
                 const buggyBox = { x: buggy.x, y: buggy.y, w: buggy.w, h: buggy.h };
                 let obstacleBox;
                 if (obstacle.type === 'crater') {
-                     // For collision, treat crater as a raised block just *above* ground
-                     // This simplifies check: if buggy *isn't* jumping and hits this area, it crashes.
                      obstacleBox = { x: obstacle.x, y: GROUND_LEVEL_Y - 5, w: obstacle.w, h: 5 };
                      if (checkCollision(buggyBox, obstacleBox) && buggy.onGround) {
-                         loseLife();
+                         buggy.hit(); // Use hit method for invulnerability
+                         createExplosion(buggy.x + buggy.w / 2, buggy.y + buggy.h / 2, '#ff0000'); // Red explosion for crash
                      }
                 } else { // Rocks and Mines
                      obstacleBox = { x: obstacle.x, y: obstacle.y, w: obstacle.w, h: obstacle.h };
                      if (checkCollision(buggyBox, obstacleBox)) {
-                         loseLife();
+                         buggy.hit(); // Use hit method
                          obstacle.alive = false; // Destroy obstacle on collision
+                         createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color); // Explosion with obstacle color
                      }
                 }
             });
@@ -910,14 +1040,14 @@
             forwardBullets.forEach(bullet => {
                 if (!bullet.alive) return;
                 obstacles.forEach(obstacle => {
-                    if (!obstacle.alive || obstacle.type === 'crater') return; // Can't shoot craters
+                    if (!obstacle.alive || obstacle.type === 'crater') return;
                     const bulletBox = { x: bullet.x, y: bullet.y, w: bullet.w, h: bullet.h };
                     const obstacleBox = { x: obstacle.x, y: obstacle.y, w: obstacle.w, h: obstacle.h };
                     if (checkCollision(bulletBox, obstacleBox)) {
                         bullet.alive = false;
                         obstacle.alive = false;
                         score += (obstacle.type === 'rock' ? POINTS_ROCK : POINTS_MINE);
-                        // TODO: Add explosion effect
+                        createExplosion(obstacle.x + obstacle.w / 2, obstacle.y + obstacle.h / 2, obstacle.color); // Explosion
                     }
                 });
             });
@@ -933,30 +1063,32 @@
                         bullet.alive = false;
                         ufo.alive = false;
                         score += POINTS_UFO;
-                        // TODO: Add explosion effect
+                        createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody); // Explosion
                     }
                 });
             });
 
-            // 4. Buggy vs UFOs (optional, could make it harder)
+            // 4. Buggy vs UFOs
             ufos.forEach(ufo => {
                  if (!ufo.alive) return;
                  const buggyBox = { x: buggy.x, y: buggy.y, w: buggy.w, h: buggy.h };
                  const ufoBox = { x: ufo.x, y: ufo.y, w: ufo.w, h: ufo.h };
                  if (checkCollision(buggyBox, ufoBox)) {
-                     loseLife();
+                     buggy.hit(); // Use hit method
                      ufo.alive = false; // UFO also destroyed
+                     createExplosion(ufo.x + ufo.w / 2, ufo.y + ufo.h / 2, ufo.colorBody); // Explosion
                  }
             });
 
             // 5. Enemy Bullets vs Buggy (Add later)
         }
 
+
         function loseLife() {
-            if (isGameOver) return; // Don't lose multiple lives at once
+            // This function is now mainly called by buggy.hit() after checking invulnerability
+            if (isGameOver) return;
             lives--;
-            // TODO: Add explosion effect for buggy
-            // TODO: Add brief invulnerability?
+            console.log("Life lost, lives remaining:", lives);
             if (lives <= 0) {
                 gameOver();
             } else {
@@ -965,7 +1097,6 @@
                 buggy.isJumping = false;
                 buggy.onGround = true;
                 buggy.velocityY = 0;
-                // Flash buggy briefly? (Need a timer mechanism)
             }
             updateUI();
         }
@@ -995,6 +1126,7 @@
              upwardBullets = [];
              obstacles = [];
              ufos = [];
+             particles = []; // Clear particles
              backgroundStars = [];
              backgroundMountainsNear = [];
              backgroundMountainsFar = [];
@@ -1034,6 +1166,11 @@
         }
 
         function updateCheckpointsAndDifficulty() {
+            // Ensure obstacleScrollSpeed is a number before adding
+            if (typeof obstacleScrollSpeed !== 'number') {
+                console.error("obstacleScrollSpeed is not a number:", obstacleScrollSpeed);
+                obstacleScrollSpeed = OBSTACLE_SCROLL_SPEED_START; // Reset to default
+            }
             distanceScrolled += obstacleScrollSpeed;
             const nextCheckpointDist = (currentCheckpointIndex + 1) * CHECKPOINT_DISTANCE;
 
@@ -1088,11 +1225,17 @@
 
             // Prepare Stats
             statsContainer.innerHTML = ''; // Clear previous stats
+             // Calculate stats more accurately
+             const rocksShot = obstacles.filter(o => o.type === 'rock' && !o.alive).length;
+             const minesShot = obstacles.filter(o => o.type === 'mine' && !o.alive).length;
+             const ufosShot = ufos.filter(u => !u.alive).length; // Assuming UFOs are only destroyed by bullets for now
+
             const stats = [
                 `Course: ${selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1)}`,
-                `Checkpoint: ${ALPHABET[currentCheckpointIndex]}`,
-                `Rocks Shot: ${forwardBullets.filter(b => !b.alive).length}`, // Simplistic stat
-                `UFOs Down: ${upwardBullets.filter(b => !b.alive).length}`,   // Simplistic stat
+                `Checkpoint: ${ALPHABET[currentCheckpointIndex] || 'Z'}`, // Handle index out of bounds just in case
+                `Rocks Shot: ${rocksShot}`,
+                `Mines Shot: ${minesShot}`,
+                `UFOs Down: ${ufosShot}`,
                 `Final Score: ${score}`,
                 newHighScore ? `NEW HIGH SCORE!` : `High Score: ${highScore}`
             ];
@@ -1100,7 +1243,7 @@
 
             // Show Message Box
             const title = courseComplete ? "COURSE COMPLETE!" : (newHighScore ? "GAME OVER - NEW HIGH SCORE!" : "GAME OVER");
-            const message = courseComplete ? `Final Score: ${score}` : `You reached Checkpoint ${ALPHABET[currentCheckpointIndex]}. Final Score: ${score}`;
+            const message = courseComplete ? `Final Score: ${score}` : `You reached Checkpoint ${ALPHABET[currentCheckpointIndex] || 'Z'}. Final Score: ${score}`;
             showMessage(title, message);
             statsContainer.style.display = 'grid'; // Show stats
 
@@ -1190,18 +1333,34 @@
             // Draw UFOs
             ufos.forEach(drawUFO);
 
-            // Draw Buggy last (on top)
-            buggy.draw();
+            // Draw Buggy last (on top) - check if buggy exists
+            if (buggy) {
+                buggy.draw();
+            }
+
+            // Draw Particles
+            drawParticles();
         }
+
 
         // --- Update Functions ---
         function updateGameObjects() {
-            buggy.update();
+            // Ensure buggy exists before updating
+            if (buggy) {
+                buggy.update();
+            } else if (!isGameOver) {
+                // If buggy doesn't exist but game isn't over, likely an error state
+                console.error("Buggy object is missing during active gameplay!");
+                gameOver(); // Force game over if buggy is gone
+                return;
+            }
+
 
             forwardBullets.forEach(updateBullet);
             upwardBullets.forEach(updateBullet);
             obstacles.forEach(updateObstacle);
             ufos.forEach(updateUFO);
+            updateParticles(); // Update explosion particles
 
             // Filter out dead objects
             forwardBullets = forwardBullets.filter(b => b.alive);
@@ -1237,8 +1396,11 @@
             scoreDisplay.textContent = `SCORE: ${score}`;
             highScoreDisplay.textContent = `HI: ${highScore}`;
             livesDisplay.textContent = `LIVES: ${lives}`;
-            checkpointDisplay.textContent = `CHK: ${ALPHABET[currentCheckpointIndex] || 'Z'}`;
+            // Ensure checkpoint index is valid before accessing ALPHABET
+            const checkpointChar = currentCheckpointIndex < ALPHABET.length ? ALPHABET[currentCheckpointIndex] : 'Z';
+            checkpointDisplay.textContent = `CHK: ${checkpointChar}`;
         }
+
 
         // --- Game Loop ---
         function gameLoop() {
@@ -1373,6 +1535,7 @@
 
              // Reset state variables
              score = 0; lives = STARTING_LIVES; currentCheckpointIndex = 0; distanceScrolled = 0;
+             buggy = null; // Clear buggy object
 
              // Reset UI to initial state
              startMenuContainer.style.display = 'flex';
@@ -1400,7 +1563,14 @@
 
         // Keyboard Input
         window.addEventListener('keydown', (event) => {
-            if (!gameHasStarted || isPaused || isGameOver) return;
+            // Allow pause toggle even if game not fully started but controls are visible
+            if (event.code === 'KeyP' && controlsContainer.style.display === 'flex') {
+                 event.preventDefault();
+                 togglePause();
+                 return; // Don't process other keys if pausing
+            }
+
+            if (!gameHasStarted || isPaused || isGameOver || !buggy) return; // Ensure buggy exists
 
             switch (event.code) {
                 case 'Space':
@@ -1411,11 +1581,6 @@
                     event.preventDefault();
                     buggy.shoot();
                     break;
-                // Add Pause toggle on key? e.g., 'KeyP'
-                 case 'KeyP':
-                     event.preventDefault();
-                     togglePause();
-                     break;
             }
         });
 
